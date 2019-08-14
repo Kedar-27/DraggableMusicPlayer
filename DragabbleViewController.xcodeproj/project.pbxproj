@@ -8,20 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		97A0AF1C23041D79002E7D64 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A0AF1B23041D79002E7D64 /* AppDelegate.swift */; };
-		97A0AF1E23041D79002E7D64 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A0AF1D23041D79002E7D64 /* ViewController.swift */; };
+		97A0AF1E23041D79002E7D64 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A0AF1D23041D79002E7D64 /* MainVC.swift */; };
 		97A0AF2123041D79002E7D64 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97A0AF1F23041D79002E7D64 /* Main.storyboard */; };
 		97A0AF2323041D7A002E7D64 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97A0AF2223041D7A002E7D64 /* Assets.xcassets */; };
 		97A0AF2623041D7A002E7D64 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97A0AF2423041D7A002E7D64 /* LaunchScreen.storyboard */; };
+		97A46F9A2304200D00C931D2 /* DraggableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A46F992304200D00C931D2 /* DraggableVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		97A0AF1823041D79002E7D64 /* DragabbleViewController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DragabbleViewController.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97A0AF1B23041D79002E7D64 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		97A0AF1D23041D79002E7D64 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		97A0AF1D23041D79002E7D64 /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
 		97A0AF2023041D79002E7D64 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		97A0AF2223041D7A002E7D64 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97A0AF2523041D7A002E7D64 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97A0AF2723041D7A002E7D64 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		97A46F992304200D00C931D2 /* DraggableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,13 +57,30 @@
 			isa = PBXGroup;
 			children = (
 				97A0AF1B23041D79002E7D64 /* AppDelegate.swift */,
-				97A0AF1D23041D79002E7D64 /* ViewController.swift */,
+				97A46F9823041FE100C931D2 /* ViewController */,
 				97A0AF1F23041D79002E7D64 /* Main.storyboard */,
 				97A0AF2223041D7A002E7D64 /* Assets.xcassets */,
 				97A0AF2423041D7A002E7D64 /* LaunchScreen.storyboard */,
 				97A0AF2723041D7A002E7D64 /* Info.plist */,
+				97A46F8F23041EC700C931D2 /* Transition Helper */,
 			);
 			path = DragabbleViewController;
+			sourceTree = "<group>";
+		};
+		97A46F8F23041EC700C931D2 /* Transition Helper */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Transition Helper";
+			sourceTree = "<group>";
+		};
+		97A46F9823041FE100C931D2 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				97A0AF1D23041D79002E7D64 /* MainVC.swift */,
+				97A46F992304200D00C931D2 /* DraggableVC.swift */,
+			);
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -135,8 +154,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				97A0AF1E23041D79002E7D64 /* ViewController.swift in Sources */,
+				97A0AF1E23041D79002E7D64 /* MainVC.swift in Sources */,
 				97A0AF1C23041D79002E7D64 /* AppDelegate.swift in Sources */,
+				97A46F9A2304200D00C931D2 /* DraggableVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,6 +303,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 286YZPSLBW;
 				INFOPLIST_FILE = DragabbleViewController/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -300,6 +321,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 286YZPSLBW;
 				INFOPLIST_FILE = DragabbleViewController/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import LNPopupController
+import FSPagerView
 
 class DraggableVC: UIViewController {
 
@@ -16,6 +18,7 @@ class DraggableVC: UIViewController {
     
     // MARK: - Outlets
     
+    @IBOutlet weak var bgView: UIView!
     
     
     // MARK: - Properties
@@ -46,7 +49,7 @@ class DraggableVC: UIViewController {
         
         
         
-        
+    
     }
     
     func setupUI(){
@@ -60,10 +63,37 @@ class DraggableVC: UIViewController {
         
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        bgView.roundCorners(corners: [.topLeft, .topRight], radius: 15)
+        
+        
+    }
+    
+    
+    
+    
     // MARK: - IBActions
 
-    
-
-
-
 }
+
+
+
+
+
+
+
+
+
+
+extension UIView {
+    func roundCorners(corners: UIRectCorner, radius: CGFloat) {
+        let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        let mask = CAShapeLayer()
+        mask.path = path.cgPath
+        layer.mask = mask
+    }
+}
+
+

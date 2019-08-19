@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9758A4B823068A89002BB114 /* LNPopupController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9758A4B623068A72002BB114 /* LNPopupController.framework */; };
+		9758A4B923068A89002BB114 /* LNPopupController.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9758A4B623068A72002BB114 /* LNPopupController.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9758A4C62306D5B9002BB114 /* CustomBottomBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9758A4C52306D5B9002BB114 /* CustomBottomBar.swift */; };
 		97A0AF1C23041D79002E7D64 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A0AF1B23041D79002E7D64 /* AppDelegate.swift */; };
 		97A0AF1E23041D79002E7D64 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A0AF1D23041D79002E7D64 /* MainVC.swift */; };
 		97A0AF2123041D79002E7D64 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97A0AF1F23041D79002E7D64 /* Main.storyboard */; };
@@ -15,7 +18,24 @@
 		97A46F9A2304200D00C931D2 /* DraggableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A46F992304200D00C931D2 /* DraggableVC.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		9758A4BA23068A89002BB114 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				9758A4B923068A89002BB114 /* LNPopupController.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		97500EF5230AA40C009E6DC8 /* FSPagerView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FSPagerView.framework; path = Carthage/Build/iOS/FSPagerView.framework; sourceTree = "<group>"; };
+		9758A4B623068A72002BB114 /* LNPopupController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LNPopupController.framework; path = Carthage/Build/iOS/LNPopupController.framework; sourceTree = "<group>"; };
+		9758A4C52306D5B9002BB114 /* CustomBottomBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBottomBar.swift; sourceTree = "<group>"; };
 		97A0AF1823041D79002E7D64 /* DragabbleViewController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DragabbleViewController.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97A0AF1B23041D79002E7D64 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		97A0AF1D23041D79002E7D64 /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
@@ -31,17 +51,36 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9758A4B823068A89002BB114 /* LNPopupController.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9758A4B523068A72002BB114 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				97500EF5230AA40C009E6DC8 /* FSPagerView.framework */,
+				9758A4B623068A72002BB114 /* LNPopupController.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9758A4BC2306C2A9002BB114 /* Custom PopupBar */ = {
+			isa = PBXGroup;
+			children = (
+				9758A4C52306D5B9002BB114 /* CustomBottomBar.swift */,
+			);
+			path = "Custom PopupBar";
+			sourceTree = "<group>";
+		};
 		97A0AF0F23041D79002E7D64 = {
 			isa = PBXGroup;
 			children = (
 				97A0AF1A23041D79002E7D64 /* DragabbleViewController */,
 				97A0AF1923041D79002E7D64 /* Products */,
+				9758A4B523068A72002BB114 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,22 +95,15 @@
 		97A0AF1A23041D79002E7D64 /* DragabbleViewController */ = {
 			isa = PBXGroup;
 			children = (
+				9758A4BC2306C2A9002BB114 /* Custom PopupBar */,
 				97A0AF1B23041D79002E7D64 /* AppDelegate.swift */,
 				97A46F9823041FE100C931D2 /* ViewController */,
 				97A0AF1F23041D79002E7D64 /* Main.storyboard */,
 				97A0AF2223041D7A002E7D64 /* Assets.xcassets */,
 				97A0AF2423041D7A002E7D64 /* LaunchScreen.storyboard */,
 				97A0AF2723041D7A002E7D64 /* Info.plist */,
-				97A46F8F23041EC700C931D2 /* Transition Helper */,
 			);
 			path = DragabbleViewController;
-			sourceTree = "<group>";
-		};
-		97A46F8F23041EC700C931D2 /* Transition Helper */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Transition Helper";
 			sourceTree = "<group>";
 		};
 		97A46F9823041FE100C931D2 /* ViewController */ = {
@@ -93,6 +125,8 @@
 				97A0AF1423041D79002E7D64 /* Sources */,
 				97A0AF1523041D79002E7D64 /* Frameworks */,
 				97A0AF1623041D79002E7D64 /* Resources */,
+				9758A4B423068995002BB114 /* ShellScript */,
+				9758A4BA23068A89002BB114 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -149,12 +183,35 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		9758A4B423068995002BB114 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/LNPopupController.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/FSPagerView.framework",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n/usr/local/bin/carthage copy-frameworks\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		97A0AF1423041D79002E7D64 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				97A0AF1E23041D79002E7D64 /* MainVC.swift in Sources */,
+				9758A4C62306D5B9002BB114 /* CustomBottomBar.swift in Sources */,
 				97A0AF1C23041D79002E7D64 /* AppDelegate.swift in Sources */,
 				97A46F9A2304200D00C931D2 /* DraggableVC.swift in Sources */,
 			);
@@ -304,7 +361,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 286YZPSLBW;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = DragabbleViewController/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -322,7 +384,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 286YZPSLBW;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = DragabbleViewController/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

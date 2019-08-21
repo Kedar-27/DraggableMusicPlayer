@@ -22,7 +22,11 @@ class MainVC: UIViewController {
     // MARK: - Properties
     let storyBoard = UIStoryboard(name: DraggableVC.storyboardName, bundle: nil)
     var dragVC = DraggableVC()
-    var animator: UIViewPropertyAnimator!
+    
+    lazy var viewModel : MusicDataViewModel = {
+        let viewModel = MusicDataViewModel.shared
+        return viewModel
+    }()
     
     // MARK: - Data Injections
     
@@ -48,16 +52,18 @@ class MainVC: UIViewController {
     
     func setupVC(){
         dragVC = storyBoard.instantiateViewController(withIdentifier: DraggableVC.storyboardIdentifier ) as! DraggableVC
-
+        
+        self.viewModel.currentMusicItem.addAndNotify(observer: self, completionHandler: {(music) in
+          
+      
+        })
+        
+        
     }
     
     func setupUI(){
         
-        
-        animator = UIViewPropertyAnimator(duration: 2, curve: .easeInOut) { [unowned self] in
-            self.dragVC.view.alpha = 1
-        }
-        
+    
         
         
         
@@ -68,51 +74,44 @@ class MainVC: UIViewController {
     
     func presentBottomBar(){
         
-//        let storyBoard = UIStoryboard(name: DraggableVC.storyboardName, bundle: nil)
-//        let dragVC = storyBoard.instantiateViewController(withIdentifier: DraggableVC.storyboardIdentifier ) as! DraggableVC
-//
-//        dragVC.popupItem.title = "Hall of Fame"
-//        dragVC.popupItem.subtitle = "Script"
-//        dragVC.popupItem.image = UIImage()
-//        dragVC.popupItem.progress = 0.5
-//
-//        self.popupContentView.popupCloseButtonStyle = .none
-//        self.popupInteractionStyle = .drag
-//        self.popupBar.marqueeScrollEnabled = true
-       // DispatchQueue.main.async {
-        
-        
-        
-//        self.presentPopupBar(withContentViewController: dragVC, openPopup: true, animated: true) {
-//            dragVC.view.alpha = self.transitionCoordinator?.percentComplete ?? 1
-//        }
-        
-        
-        
-//                dragVC.popupItem.title = "Hall of Fame"
-//                dragVC.popupItem.subtitle = "Script"
-//                dragVC.popupItem.image = UIImage()
-//                dragVC.popupItem.progress = 0.5
+        let customBottomBarstoryBoard = UIStoryboard(name: CustomBottomBar.storyboardName, bundle: nil)
+        let customBottomBarVC = customBottomBarstoryBoard.instantiateViewController(withIdentifier: CustomBottomBar.storyboardIdentifier ) as! CustomBottomBar
+        self.navigationController?.popupBar.customBarViewController = customBottomBarVC
+        self.navigationController?.popupContentView.popupCloseButtonStyle = .none
+        self.navigationController?.popupInteractionStyle = .drag
 
-        
-                let customBottomBarstoryBoard = UIStoryboard(name: CustomBottomBar.storyboardName, bundle: nil)
-                let customBottomBarVC = customBottomBarstoryBoard.instantiateViewController(withIdentifier: CustomBottomBar.storyboardIdentifier ) as! CustomBottomBar
-                self.popupBar.customBarViewController = customBottomBarVC
-                self.popupContentView.popupCloseButtonStyle = .none
-                self.popupInteractionStyle = .drag
-        
-        
-                self.popupContentView.popupInteractionGestureRecognizer.addTarget(self, action: #selector(handlePanGesture(gesture:)))
- 
     
-                self.presentPopupBar(withContentViewController: dragVC, animated: false, completion: nil)
-        
+        self.navigationController?.popupContentView.isTranslucent = false
+        self.navigationController?.popupContentView.popupInteractionGestureRecognizer.delegate = self
+        self.navigationController?.popupContentView.popupInteractionGestureRecognizer.addTarget(self, action: #selector(handlePanGesture(gesture:)))
+        self.navigationController?.popupBar.popupOpenGestureRecognizer.addTarget(self, action: #selector(handleTapGesture(recognizer:)))
+
+        self.navigationController?.presentPopupBar(withContentViewController: self.dragVC, animated: false) {}
+     
         
        // }
     }
     
+    // MARK: - IBActions
     
     
+    @IBAction func hidePopupButtonClicked(_ sender: Any) {
+        
+        self.navigationController?.popupBar.isHidden = true
+        
+        
+    }
+    
+    @IBAction func showPopupButtonClicked(_ sender: Any) {
+        
+        
+        self.navigationController?.popupBar.isHidden = false
+        
+        
+        
+        
+    }
+
     
 }
 
@@ -121,19 +120,25 @@ extension MainVC: UIGestureRecognizerDelegate{
     @objc func handlePanGesture(gesture: UIPanGestureRecognizer?){
     
         guard let _: CGPoint? = gesture?.translation(in: view) else { return }
-        
             if gesture?.state == .changed || gesture?.state == .ended {
-
+                let percent = ((UIScreen.main.bounds.size.height - (self.navigationController?.popupContentView.frame.height)!) / UIScreen.main.bounds.size.height)
             
-            let percent = ((UIScreen.main.bounds.size.height - popupContentView.frame.height) / UIScreen.main.bounds.size.height)
-            
-            self.popupContentView.alpha = 1.0 - percent
-            self.popupBar.alpha = percent
-            
+                self.navigationController?.popupContentView.alpha = 1.0 - percent
+                self.navigationController?.popupBar.alpha = percent
         }
         
     }
 
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return false
+    }
+    
+   @objc func handleTapGesture(recognizer: UITapGestureRecognizer) {
+    
+        self.navigationController?.popupContentView.alpha = 1.0
+    
+    }
+    
 }
 
 

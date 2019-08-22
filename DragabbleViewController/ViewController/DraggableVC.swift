@@ -8,7 +8,7 @@
 
 import UIKit
 import LNPopupController
-
+import  AVFoundation
 
 class DraggableVC: UIViewController {
 
@@ -20,6 +20,7 @@ class DraggableVC: UIViewController {
     
     @IBOutlet weak var bgView: UIView!
     @IBOutlet weak var bannerView: UIView!
+    @IBOutlet weak var playerControlView: UIView!
     
     // MARK: - Properties
     var pagerView: FSPagerView!{
@@ -42,6 +43,14 @@ class DraggableVC: UIViewController {
         }
     }
     
+    
+    var avPlayer: AVPlayer!
+    
+    var musicPlayer = MusicPlayer.shared
+    
+    
+    
+    
     // MARK: - Data Injections
     
     
@@ -51,6 +60,7 @@ class DraggableVC: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.setupVC()
+        self.showMusicControlView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -85,6 +95,11 @@ class DraggableVC: UIViewController {
         }
         
         
+        self.musicPlayer.delegate = self
+        
+        
+        
+        
         
         
     }
@@ -101,9 +116,39 @@ class DraggableVC: UIViewController {
         
     }
     
+    func showMusicControlView(){
+      
+        guard let musicView =  Bundle.main.loadNibNamed(MusicControlView.identifier, owner: self, options: nil)?.first as? MusicControlView else{ return}
+        
+        DispatchQueue.main.async { [unowned self] in
+            self.playerControlView.addSubview(musicView)
+            musicView.translatesAutoresizingMaskIntoConstraints = false
+            musicView.centerXAnchor.constraint(equalTo: self.playerControlView.centerXAnchor).isActive = true
+            musicView.centerYAnchor.constraint(equalTo: self.playerControlView.centerYAnchor, constant: 0).isActive = true
+            musicView.widthAnchor.constraint(equalTo: self.playerControlView.widthAnchor).isActive = true
+            musicView.heightAnchor.constraint(equalTo: self.playerControlView.heightAnchor, multiplier: 1, constant: 0).isActive = true
+        }
+        
+        musicView.previousButton.addTarget(self, action: #selector(prevButtonClicked(_:)), for: .touchUpInside)
+        musicView.nextButton.addTarget(self, action: #selector(nextButtonClicked(_:)), for: .touchUpInside)
+        
+        musicView.playButton.addTarget(self, action: #selector(playButtonCLicked), for: .touchUpInside)
+        
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     // MARK: - IBActions
 
-    @IBAction func prevButtonClicked(_ sender: Any) {
+    @objc func prevButtonClicked(_ sender: Any) {
         let newIndex = self.pagerView.currentIndex - 1
         
         guard  newIndex >= 0 else {
@@ -113,11 +158,11 @@ class DraggableVC: UIViewController {
         
         self.viewModel.currentMusicItem.value = self.musicData[newIndex]
         
-        
+         musicPlayer.playPrevious()
         
     }
     
-    @IBAction func nextButtonClicked(_ sender: Any) {
+    @objc func nextButtonClicked(_ sender: Any) {
         
         let currentIndex = self.pagerView.currentIndex + 1
         
@@ -127,10 +172,32 @@ class DraggableVC: UIViewController {
         }
         self.pagerView.scrollToItem(at: currentIndex , animated: true)
         self.viewModel.currentMusicItem.value = self.musicData[currentIndex]
+    
+        musicPlayer.playNext()
+    
     }
     
     
-    
+    @objc func playButtonCLicked(){
+        
+        
+        let helper = PlaylistHelper.shared
+        helper.mediaURLs = self.musicData.compactMap({$0.url})
+        
+       // musicPlayer.playerItems = helper.getAVPlayerItems()
+        
+        let videoURL = NSURL(string: "http://strm112.1.fm/acountry_mobile_mp3")
+        avPlayer = AVPlayer(url: videoURL! as URL)
+        avPlayer.play()
+        
+        
+        
+        
+        
+       // musicPlayer.play()
+        
+        
+    }
     
     
     
@@ -171,6 +238,12 @@ extension DraggableVC: FSPagerViewDataSource, FSPagerViewDelegate{
 
 
 extension UIView {
+    
+    /// Returns String Represention of the class
+    class var identifier: String{
+        return String(describing: self)
+    }
+    
     func roundCorners(corners: UIRectCorner, radius: CGFloat) {
         let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
         let mask = CAShapeLayer()
@@ -185,6 +258,124 @@ class CustomFSPagerViewTransformer: FSPagerViewTransformer{
     override func proposedInteritemSpacing() -> CGFloat {
         return UIScreen.main.bounds.width * 0.01
     }
+    
+    
+    
+}
+
+
+
+typealias UIButtonTargetClosure = (UIButton) -> ()
+
+class ClosureWrapper: NSObject {
+    let closure: UIButtonTargetClosure
+    init(_ closure: @escaping UIButtonTargetClosure) {
+        self.closure = closure
+    }
+}
+
+extension UIButton {
+    
+    private struct AssociatedKeys {
+        static var targetClosure = "targetClosure"
+    }
+    
+    private var targetClosure: UIButtonTargetClosure? {
+        get {
+            guard let closureWrapper = objc_getAssociatedObject(self, &AssociatedKeys.targetClosure) as? ClosureWrapper else { return nil }
+            return closureWrapper.closure
+        }
+        set(newValue) {
+            guard let newValue = newValue else { return }
+            objc_setAssociatedObject(self, &AssociatedKeys.targetClosure, ClosureWrapper(newValue), objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+    
+    func addTargetClosure(closure: @escaping UIButtonTargetClosure) {
+        targetClosure = closure
+        addTarget(self, action: #selector(UIButton.closureAction), for: .touchUpInside)
+    }
+    
+    @objc func closureAction() {
+        guard let targetClosure = targetClosure else { return }
+        targetClosure(self)
+    }
+    
+    func setBackgroundColor(color: UIColor, forState: UIControl.State) {
+        self.clipsToBounds = true  // add this to maintain corner radius
+        UIGraphicsBeginImageContext(CGSize(width: 1, height: 1))
+        if let context = UIGraphicsGetCurrentContext() {
+            context.setFillColor(color.cgColor)
+            context.fill(CGRect(x: 0, y: 0, width: 1, height: 1))
+            let colorImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            self.setBackgroundImage(colorImage, for: forState)
+        }
+    }
+    
+    func alignTextUnderImage(spacing: CGFloat = 6.0){
+        if let image = self.imageView?.image , let font = self.titleLabel!.font{
+            let imageSize: CGSize = image.size
+            self.titleEdgeInsets = UIEdgeInsets(top: spacing, left: -imageSize.width, bottom: -(imageSize.height), right: 0.0)
+            let labelString = NSString(string: self.titleLabel!.text!)
+            let titleSize = labelString.size(withAttributes: [NSAttributedString.Key.font: font])
+            self.imageEdgeInsets = UIEdgeInsets(top: -(titleSize.height + spacing), left: 0.0, bottom: 0.0, right: -titleSize.width)
+        }
+    }
+    
+    
+    open override func awakeFromNib() {
+        super.awakeFromNib()
+        self.isExclusiveTouch = true
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    //    open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    //        super.touchesBegan(touches, with: event)
+    //        if self.viewController() != nil{
+    //            //            self.viewController()?.view.endEditing(true)
+    //        }
+    //    }
+}
+
+
+extension DraggableVC: MusicPlayerDelegate{
+    func playerStateDidChange(player: AVPlayer, _ playerState: MusicPlayerState) {
+        
+        print(player)
+        print(playerState)
+        
+        
+    }
+    
+    func playbackStateDidChange(player: AVPlayer, _ playbackState: MusicPlayerPlaybackState) {
+        print(player)
+        print(playbackState)
+    }
+    
+    func playerPlaybackDuration(player: AVPlayer, currentTime: String, totalTime: String) {
+        print(player)
+        print(currentTime)
+        print(totalTime)
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     

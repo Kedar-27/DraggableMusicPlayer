@@ -108,57 +108,24 @@
                                 <rect key="frame" x="0.0" y="55.5" width="414" height="806.5"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HBA-CL-hOs">
-                                        <rect key="frame" x="0.0" y="80.5" width="414" height="323"/>
+                                        <rect key="frame" x="0.0" y="60.5" width="414" height="242"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
-                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="UWK-RM-KRa">
-                                        <rect key="frame" x="60" y="483.5" width="294" height="31"/>
-                                    </slider>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="tnf-OZ-bB0">
-                                        <rect key="frame" x="62" y="564.5" width="290" height="30"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DDI-Qf-yYS">
-                                                <rect key="frame" x="0.0" y="0.0" width="80.5" height="30"/>
-                                                <color key="backgroundColor" red="0.41160102739999999" green="0.40986194349999999" blue="0.41336686639999998" alpha="1" colorSpace="calibratedRGB"/>
-                                                <state key="normal" title="prev">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="prevButtonClicked:" destination="dJP-vz-T6a" eventType="touchUpInside" id="6V3-5J-Y1p"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yNn-Dg-Q8l">
-                                                <rect key="frame" x="104.5" y="0.0" width="81" height="30"/>
-                                                <color key="backgroundColor" red="0.41160102739999999" green="0.40986194349999999" blue="0.41336686639999998" alpha="1" colorSpace="calibratedRGB"/>
-                                                <state key="normal" title="play">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </state>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vk9-9p-58z">
-                                                <rect key="frame" x="209.5" y="0.0" width="80.5" height="30"/>
-                                                <color key="backgroundColor" red="0.41160102739999999" green="0.40986194349999999" blue="0.41336686639999998" alpha="1" colorSpace="calibratedRGB"/>
-                                                <state key="normal" title="next">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="nextButtonClicked:" destination="dJP-vz-T6a" eventType="touchUpInside" id="VfO-WD-hYK"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                    </stackView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xg8-KE-W2B">
+                                        <rect key="frame" x="0.0" y="302.5" width="414" height="504"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
                                 </subviews>
-                                <color key="backgroundColor" red="0.053379498439999999" green="1" blue="0.00033646567799999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="UWK-RM-KRa" firstAttribute="centerX" secondItem="ya5-3T-Q6l" secondAttribute="centerX" id="Lbe-ED-kLH"/>
+                                    <constraint firstItem="Xg8-KE-W2B" firstAttribute="width" secondItem="HBA-CL-hOs" secondAttribute="width" id="5Em-bj-Qrs"/>
+                                    <constraint firstItem="Xg8-KE-W2B" firstAttribute="centerX" secondItem="ya5-3T-Q6l" secondAttribute="centerX" id="G6w-cQ-Drc"/>
+                                    <constraint firstAttribute="bottom" secondItem="Xg8-KE-W2B" secondAttribute="bottom" id="NFI-E6-5e6"/>
                                     <constraint firstItem="HBA-CL-hOs" firstAttribute="width" secondItem="ya5-3T-Q6l" secondAttribute="width" id="Qex-LS-MRa"/>
-                                    <constraint firstItem="tnf-OZ-bB0" firstAttribute="centerX" secondItem="ya5-3T-Q6l" secondAttribute="centerX" id="QnY-ja-j4W"/>
-                                    <constraint firstItem="tnf-OZ-bB0" firstAttribute="top" secondItem="UWK-RM-KRa" secondAttribute="bottom" multiplier="1.1" id="R9h-I5-9yp"/>
-                                    <constraint firstItem="tnf-OZ-bB0" firstAttribute="width" secondItem="ya5-3T-Q6l" secondAttribute="width" multiplier="0.7" id="Sey-8g-g98"/>
-                                    <constraint firstItem="HBA-CL-hOs" firstAttribute="top" secondItem="ya5-3T-Q6l" secondAttribute="bottom" multiplier="0.1" id="dIh-Uy-qhm"/>
-                                    <constraint firstItem="tnf-OZ-bB0" firstAttribute="top" secondItem="HBA-CL-hOs" secondAttribute="bottom" multiplier="1.4" id="hJz-xa-aXU"/>
-                                    <constraint firstItem="UWK-RM-KRa" firstAttribute="width" secondItem="tnf-OZ-bB0" secondAttribute="width" id="l01-dA-VSj"/>
-                                    <constraint firstItem="HBA-CL-hOs" firstAttribute="height" secondItem="ya5-3T-Q6l" secondAttribute="height" multiplier="0.4" id="rvT-8F-flk"/>
+                                    <constraint firstItem="HBA-CL-hOs" firstAttribute="top" secondItem="ya5-3T-Q6l" secondAttribute="bottom" multiplier="0.075" id="dIh-Uy-qhm"/>
+                                    <constraint firstItem="HBA-CL-hOs" firstAttribute="height" secondItem="ya5-3T-Q6l" secondAttribute="height" multiplier="0.3" id="rvT-8F-flk"/>
                                     <constraint firstItem="HBA-CL-hOs" firstAttribute="centerX" secondItem="ya5-3T-Q6l" secondAttribute="centerX" id="tQV-JK-ViP"/>
+                                    <constraint firstItem="Xg8-KE-W2B" firstAttribute="top" secondItem="HBA-CL-hOs" secondAttribute="bottom" id="xmX-kJ-sgS"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -178,6 +145,7 @@
                     <connections>
                         <outlet property="bannerView" destination="HBA-CL-hOs" id="wzo-bb-3Xf"/>
                         <outlet property="bgView" destination="ya5-3T-Q6l" id="Q0u-k4-KxO"/>
+                        <outlet property="playerControlView" destination="Xg8-KE-W2B" id="3Z1-VT-alG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mqo-Pw-eJO" userLabel="First Responder" sceneMemberID="firstResponder"/>

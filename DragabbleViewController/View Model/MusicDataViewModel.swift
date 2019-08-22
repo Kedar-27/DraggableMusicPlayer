@@ -13,7 +13,6 @@ class MusicDataViewModel: NSObject{
 
     static let shared = MusicDataViewModel()
     private override init() {
-        
         self.currentMusicItem = DynamicValue(MusicData.data.first!)
         super.init()
         
@@ -22,13 +21,6 @@ class MusicDataViewModel: NSObject{
     
     var currentMusicItem: DynamicValue<Music>
     var musicData: DynamicValue<[Music]> = DynamicValue(MusicData.data)
-    
-  
-    
-    
-    
-    
-    
     
 }
 

@@ -45,7 +45,8 @@ class MusicControlView: UIView {
     
     func setupView(){
         
-        
+        self.durationSlider.minimumValue = 0
+        self.durationSlider.value = 0
         
         
         

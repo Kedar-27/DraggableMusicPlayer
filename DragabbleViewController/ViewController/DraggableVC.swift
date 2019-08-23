@@ -48,7 +48,7 @@ class DraggableVC: UIViewController {
     
     var musicPlayer = MusicPlayer.shared
     
-    
+    var musicControlView = MusicControlView()
     
     
     // MARK: - Data Injections
@@ -61,6 +61,7 @@ class DraggableVC: UIViewController {
         // Do any additional setup after loading the view.
         self.setupVC()
         self.showMusicControlView()
+        self.setupMusicPlayer()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -94,8 +95,8 @@ class DraggableVC: UIViewController {
             self.musicData = musics
         }
         
-        
-        self.musicPlayer.delegate = self
+    
+       
         
         
         
@@ -121,6 +122,7 @@ class DraggableVC: UIViewController {
         guard let musicView =  Bundle.main.loadNibNamed(MusicControlView.identifier, owner: self, options: nil)?.first as? MusicControlView else{ return}
         
         DispatchQueue.main.async { [unowned self] in
+            self.musicControlView = musicView
             self.playerControlView.addSubview(musicView)
             musicView.translatesAutoresizingMaskIntoConstraints = false
             musicView.centerXAnchor.constraint(equalTo: self.playerControlView.centerXAnchor).isActive = true
@@ -128,6 +130,15 @@ class DraggableVC: UIViewController {
             musicView.widthAnchor.constraint(equalTo: self.playerControlView.widthAnchor).isActive = true
             musicView.heightAnchor.constraint(equalTo: self.playerControlView.heightAnchor, multiplier: 1, constant: 0).isActive = true
         }
+        
+        self.viewModel.currentMusicItem.addAndNotify(observer: self, completionHandler: {(music) in
+                musicView.songTitleLabel.text = music.title
+                musicView.artistNameLabel.text = music.subtitle
+        })
+        
+        musicView.durationSlider.addTarget(self, action: #selector(sliderValueChanged(_:)) , for: .valueChanged)
+        
+        
         
         musicView.previousButton.addTarget(self, action: #selector(prevButtonClicked(_:)), for: .touchUpInside)
         musicView.nextButton.addTarget(self, action: #selector(nextButtonClicked(_:)), for: .touchUpInside)
@@ -137,7 +148,15 @@ class DraggableVC: UIViewController {
         
     }
     
-    
+    func setupMusicPlayer(){
+        self.musicPlayer.delegate = self
+        let helper = PlaylistHelper.shared
+        helper.mediaURLs = musicData.compactMap({$0.url})
+        
+        musicPlayer.playerItems = helper.getAVPlayerItems()
+        
+        
+    }
     
     
     
@@ -181,25 +200,28 @@ class DraggableVC: UIViewController {
     @objc func playButtonCLicked(){
         
         
-        let helper = PlaylistHelper.shared
-        helper.mediaURLs = self.musicData.compactMap({$0.url})
+       
         
-       // musicPlayer.playerItems = helper.getAVPlayerItems()
-        
-        let videoURL = NSURL(string: "http://strm112.1.fm/acountry_mobile_mp3")
-        avPlayer = AVPlayer(url: videoURL! as URL)
-        avPlayer.play()
+      //  let videoURL = NSURL(string: "http://strm112.1.fm/acountry_mobile_mp3")
+        //avPlayer = AVPlayer(url: videoURL! as URL)
+        //avPlayer.play()
         
         
         
         
         
-       // musicPlayer.play()
+       musicPlayer.play()
         
         
     }
     
-    
+    @objc func sliderValueChanged(_ playbackSlider: UISlider){
+        
+        let seconds : Int64 = Int64(playbackSlider.value)
+        let targetTime:CMTime = CMTimeMake(value: seconds, timescale: 1)
+        
+        musicPlayer.seekPlayer(to: targetTime)
+    }
     
     
     
@@ -225,11 +247,113 @@ extension DraggableVC: FSPagerViewDataSource, FSPagerViewDelegate{
     
     func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
         pagerView.deselectItem(at: index, animated: true)
-        
         pagerView.scrollToItem(at: index, animated: true)
     }
     
+    func pagerViewDidEndDecelerating(_ pagerView: FSPagerView) {
+        var visibleRect = CGRect()
+        
+        visibleRect.origin = pagerView.collectionView.contentOffset
+        visibleRect.size = pagerView.collectionView.bounds.size
+        
+        let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY)
+        
+        guard let indexPath = pagerView.collectionView.indexPathForItem(at: visiblePoint) else { return }
+    
+        self.musicPlayer.playItem(index: indexPath.row)
+        
+        self.viewModel.currentMusicItem.value = self.musicData[indexPath.row]
+        
+        
+    }
+    
+    
+    
+    
+    
 }
+
+
+
+
+
+
+
+
+
+
+extension DraggableVC: MusicPlayerDelegate{
+    func playerStateDidChange(player: AVPlayer, _ playerState: MusicPlayerState) {
+        
+        print(player)
+        print(playerState)
+        
+        
+    }
+    
+    func playbackStateDidChange(player: AVPlayer, _ playbackState: MusicPlayerPlaybackState) {
+        print(player)
+        print(playbackState)
+    }
+    
+    func playerPlaybackDurationChanged(player: AVPlayer, currentTime: CMTime, totalTime: CMTime) {
+//        print(player)
+//        print(currentTime)
+//        print(totalTime)
+ 
+        if currentTime.seconds > 80{
+            
+            
+            
+            
+            
+            
+            
+        }
+        
+        
+        
+        print(currentTime.seconds)
+        
+        
+        DispatchQueue.main.async { [weak self] in
+            
+            guard let strongSelf = self else{return}
+            
+            strongSelf.musicControlView.currentTimeLabel.text  = PlaylistHelper.shared.getTimeString(from: currentTime)
+            strongSelf.musicControlView.durationSlider.value = Float(currentTime.seconds)
+            strongSelf.musicControlView.durationLabel.text = PlaylistHelper.shared.getTimeString(from: totalTime)
+            strongSelf.musicControlView.durationSlider.maximumValue = Float(totalTime.seconds)
+        }
+        
+        
+    
+        
+    
+    
+    }
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -328,55 +452,5 @@ extension UIButton {
         super.awakeFromNib()
         self.isExclusiveTouch = true
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    //    open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-    //        super.touchesBegan(touches, with: event)
-    //        if self.viewController() != nil{
-    //            //            self.viewController()?.view.endEditing(true)
-    //        }
-    //    }
-}
-
-
-extension DraggableVC: MusicPlayerDelegate{
-    func playerStateDidChange(player: AVPlayer, _ playerState: MusicPlayerState) {
-        
-        print(player)
-        print(playerState)
-        
-        
-    }
-    
-    func playbackStateDidChange(player: AVPlayer, _ playbackState: MusicPlayerPlaybackState) {
-        print(player)
-        print(playbackState)
-    }
-    
-    func playerPlaybackDuration(player: AVPlayer, currentTime: String, totalTime: String) {
-        print(player)
-        print(currentTime)
-        print(totalTime)
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
 }

@@ -9,11 +9,11 @@
 import Foundation
 import AVFoundation
 
-protocol MusicPlayerDelegate: class {
-    func playerStateDidChange(player: AVPlayer , _ playerState: MusicPlayerState)
-    func playbackStateDidChange(player: AVPlayer, _ playbackState: MusicPlayerPlaybackState)
-    func playerPlaybackDuration(player: AVPlayer, currentTime: String , totalTime: String)
-    
+@objc public protocol MusicPlayerDelegate: class{
+    @objc optional func playerStateDidChange(player: AVPlayer , _ playerState: MusicPlayerState)
+    @objc optional func playbackStateDidChange(player: AVPlayer, _ playbackState: MusicPlayerPlaybackState)
+    @objc optional func playerPlaybackDurationChanged(player: AVPlayer, currentTime: CMTime , totalTime: CMTime)
+    @objc optional func musicMetaData(title: String , artistName: String)
 }
 
 // MARK: - MusicPlayingState
@@ -96,7 +96,7 @@ class MusicPlayer: NSObject{
     open private(set) var state = MusicPlayerState.urlNotSet {
         didSet {
             guard oldValue != state , let player = player else { return }
-            delegate?.playerStateDidChange(player: player, state)
+            delegate?.playerStateDidChange!(player: player, state)
         }
     }
     
@@ -104,7 +104,7 @@ class MusicPlayer: NSObject{
     open private(set) var playbackState = MusicPlayerPlaybackState.stopped {
         didSet {
             guard oldValue != playbackState , let player = player else { return }
-            delegate?.playbackStateDidChange(player: player, playbackState)
+            delegate?.playbackStateDidChange!(player: player, playbackState)
         }
     }
     
@@ -140,12 +140,13 @@ class MusicPlayer: NSObject{
     /// Default player item
     private var playerItem: AVPlayerItem? {
         didSet {
+            
             playerItemDidChange()
         }
     }
     
     // Current Index of song playing in playerItems
-    private var currentIndex = 0
+    public var currentIndex = 0
     
     
     var playerItems = [AVPlayerItem](){
@@ -227,7 +228,8 @@ class MusicPlayer: NSObject{
         
         switch type {
             case .began:
-                DispatchQueue.main.async { //self.pause()
+                DispatchQueue.main.async {
+                    self.pause()
                     
             }
             case .ended:
@@ -279,8 +281,17 @@ class MusicPlayer: NSObject{
             player.replaceCurrentItem(with: playerItem)
         }
         
-        self.playSong()
-        playbackState = .playing
+        //Check if player is playing song
+        if playbackState == .playing , player.isPlaying{
+            self.pause()
+        }else{
+            self.playSong()
+            playbackState = .playing
+        }
+        
+        
+        
+        
     }
     
     
@@ -327,14 +338,17 @@ class MusicPlayer: NSObject{
         
         if nextIndex < self.playerItems.count{
             let nextItem = self.playerItems[nextIndex]
-            
+            self.currentIndex = nextIndex
             lastPlayerItem = self.player?.currentItem
             playerItem = nextItem
             
             player?.replaceCurrentItem(with: nextItem)
+            
+            self.seekPlayer(to: .zero)
+            self.playSong()
+            
         }
-        self.player?.seek(to: CMTime.zero)
-        self.playSong()
+       
         
     }
     
@@ -352,18 +366,14 @@ class MusicPlayer: NSObject{
         
            // lastPlayerItem = prevIndex == 0 ? nil : self.playerItems[prevIndex - 1 ]
             playerItem = prevItem
-            
+            self.currentIndex = prevIndex
             player?.replaceCurrentItem(with: prevItem)
+            
+            self.seekPlayer(to: .zero)
+            self.playSong()
+            
+            
         }
-    
-       
-        
-        
-        
-        
-        self.player?.seek(to: CMTime.zero)
-        self.playSong()
-
         
         
     }
@@ -425,6 +435,7 @@ class MusicPlayer: NSObject{
             item.removeObserver(self, forKeyPath: "playbackBufferEmpty")
             item.removeObserver(self, forKeyPath: "playbackLikelyToKeepUp")
             item.removeObserver(self, forKeyPath: "timedMetadata")
+            
         }
         
         lastPlayerItem = playerItem
@@ -436,27 +447,65 @@ class MusicPlayer: NSObject{
             item.addObserver(self, forKeyPath: "playbackBufferEmpty", options: NSKeyValueObservingOptions.new, context: nil)
             item.addObserver(self, forKeyPath: "playbackLikelyToKeepUp", options: NSKeyValueObservingOptions.new, context: nil)
             item.addObserver(self, forKeyPath: "timedMetadata", options: NSKeyValueObservingOptions.new, context: nil)
-            
             player?.replaceCurrentItem(with: item)
             if isAutoPlay { play() }
         }
         
         
         
+        
        // delegate?.radioPlayer?(self, itemDidChange: radioURL)
     }
+    
+    /**
+     Seeking AVPlayer instance to target Time and informing the same through delegate
+ 
+     - parameter targetTime: CMTime
+     */
+    public func seekPlayer(to targetTime : CMTime){
+        guard let player = self.player , let currentItem = player.currentItem else{return}
+    
+        player.seek(to: targetTime)
+      
+        if !currentItem.duration.seconds.isNaN{
+            self.delegate?.playerPlaybackDurationChanged?(player: player, currentTime: targetTime, totalTime: currentItem.duration)
+        }
+        
+        
+        
+    }
+    
+    public func playItem(index: Int){
+        guard index != self.currentIndex , index < self.playerItems.count , let player = self.player else{return}
+        
+        self.currentIndex = index
+        
+        let newItem = self.playerItems[index]
+    
+        player.replaceCurrentItem(with: newItem)
+        lastPlayerItem = playerItem
+        playerItem = newItem
+        
+        
+        self.seekPlayer(to: .zero)
+        self.playSong()
+        
+    }
+    
+    
+    
+    
+    
     
     
     // MARK: - Time Observer
     func addTimeObserver() {
-        let interval = CMTime(seconds: 0.2, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+        let interval = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         let mainQueue = DispatchQueue.main
         self.timeObserverToken = player!.addPeriodicTimeObserver(forInterval: interval, queue: mainQueue, using: { [weak self] time in
-            guard  let player = self?.player! , let currentItem = self?.player!.currentItem else {return}
+            guard  let player = self?.player , let currentItem = player.currentItem , !currentItem.duration.seconds.isNaN , let strongSelf = self else {return}
             
-            //self?.timeSlider.value = Float(currentItem.currentTime().seconds)
-            //self?.currentTimeLabel.text = self?.getTimeString(from: currentItem.currentTime())
-            self?.delegate?.playerPlaybackDuration(player: player, currentTime: "\(currentItem.currentTime().seconds)", totalTime: "\(currentItem.duration)")
+            strongSelf.delegate?.playerPlaybackDurationChanged?(player: player, currentTime: currentItem.currentTime(), totalTime: currentItem.duration)
         })
     }
 
@@ -467,7 +516,46 @@ class MusicPlayer: NSObject{
         }
     }
     
+    // MARK: - KVO
     
+    /// :nodoc:
+    override open func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        
+        if let item = object as? AVPlayerItem, let keyPath = keyPath, item == self.playerItem {
+            
+            switch keyPath {
+                
+                
+                
+            case "status":
+                
+                if player?.status == AVPlayer.Status.readyToPlay {
+                    self.state = .readyToPlay
+                } else if player?.status == AVPlayer.Status.failed {
+                    self.state = .error
+                }
+                
+            case "playbackBufferEmpty":
+                
+                if item.isPlaybackBufferEmpty {
+                    self.state = .loading
+                    self.checkNetworkInterruption()
+                }
+                
+            case "playbackLikelyToKeepUp":
+                
+                self.state = item.isPlaybackLikelyToKeepUp ? .loadingFinished : .loading
+                
+            case "timedMetadata":
+               // let rawValue = item.timedMetadata?.first?.value as? String
+               // timedMetadataDidChange(rawValue: rawValue)
+                break
+            default:
+                break
+            }
+        }
+    }
+
     
     
     
@@ -510,4 +598,10 @@ class MusicPlayer: NSObject{
     }
     
     
+}
+
+extension AVPlayer {
+    var isPlaying: Bool {
+        return rate != 0 && error == nil
+    }
 }

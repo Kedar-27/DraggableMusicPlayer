@@ -55,17 +55,6 @@ class MainVC: UIViewController {
     func setupVC(){
         dragVC = storyBoard.instantiateViewController(withIdentifier: DraggableVC.storyboardIdentifier ) as! DraggableVC
         
-        self.viewModel.currentMusicItem.addAndNotify(observer: self, completionHandler: {(music) in
-          
-      
-        })
-        
-  
-        
-        
-        
-        
-        
         
     }
     

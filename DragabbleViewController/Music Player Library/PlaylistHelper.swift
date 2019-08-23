@@ -56,7 +56,31 @@ class PlaylistHelper: NSObject{
         
         return AVQueuePlayer(playerItem: AVPlayerItem(url: generatedURL))
     }
-
+    
+    //Get Music player formatted time from CMTime
+    func getTimeString(from time: CMTime) -> String {
+        let totalSeconds = CMTimeGetSeconds(time)
+        
+        if totalSeconds.isNaN{
+            return "00:00"
+        }
+        
+        
+        let hours = Int(totalSeconds/3600)
+        let minutes = Int(totalSeconds/60) % 60
+        let seconds = Int(totalSeconds.truncatingRemainder(dividingBy: 60))
+        if hours > 0 {
+            return String(format: "%i:%02i:%02i", arguments: [hours,minutes,seconds])
+        }else {
+            return String(format: "%02i:%02i", arguments: [minutes,seconds])
+        }
+    }
+    
+    
+    
+    
+    
+    
 }
 
 

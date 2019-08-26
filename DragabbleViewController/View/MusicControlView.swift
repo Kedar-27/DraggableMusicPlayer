@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class MusicControlView: UIView {
     
@@ -24,6 +25,16 @@ class MusicControlView: UIView {
     @IBOutlet weak var disLikeButton: UIButton!
     @IBOutlet weak var shareButton: UIButton!
     @IBOutlet weak var likeButton: UIButton!
+    
+    
+    @IBOutlet weak var playImageView: UIImageView!
+    
+    
+    
+    
+    
+    
+    
     
     
     // MARK: - Properties
@@ -50,7 +61,7 @@ class MusicControlView: UIView {
         
         self.durationSlider.isContinuous = true
         
-        
+        MusicPlayer.shared.delegates.addDelegate(self)
     }
     
     
@@ -100,4 +111,19 @@ class ILAudioSlider: UISlider {
     }
     
     
+}
+extension MusicControlView: MusicPlayerDelegate{
+    
+    func playbackStateDidChange(player: AVPlayer, _ playbackState: MusicPlayerPlaybackState) {
+        
+        if playbackState == .paused{
+            self.playImageView.image = MusicPlayerImages.playImage
+        }else{
+            self.playImageView.image = MusicPlayerImages.pauseImage
+        }
+        
+        
+        
+        
+    }
 }

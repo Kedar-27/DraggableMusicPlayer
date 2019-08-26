@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 import LNPopupController
 
 
@@ -25,7 +26,7 @@ class CustomBottomBar: LNPopupCustomBarViewController {
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var likeButton: UIButton!
-    
+    @IBOutlet weak var durationProgressView: UIProgressView!
     
     
     
@@ -104,12 +105,15 @@ class CustomBottomBar: LNPopupCustomBarViewController {
         })
         
         
-        self.musicPlayer.delegate = self
+        self.musicPlayer.delegates.addDelegate(self)
         
         self.playButton.setImage(MusicPlayerImages.playImage, for: .normal)
         self.previousButton.setImage(MusicPlayerImages.prevImage, for: .normal)
         self.nextButton.setImage(MusicPlayerImages.nextImage, for: .normal)
         self.likeButton.setImage(MusicPlayerImages.likeImage, for: .normal)
+        
+        self.durationProgressView.progressTintColor = UIColor(red: 58/255, green: 208/255, blue: 194/255, alpha: 1)
+        self.durationProgressView.progress = 0
     }
     
     func setupUI(){
@@ -152,8 +156,23 @@ class CustomBottomBar: LNPopupCustomBarViewController {
 
 extension CustomBottomBar: MusicPlayerDelegate{
     
+    func playbackStateDidChange(player: AVPlayer, _ playbackState: MusicPlayerPlaybackState) {
+        
+        if playbackState == .paused{
+            self.playButton.setImage(MusicPlayerImages.playImage, for: .normal)
+            
+        }else{
+            self.playButton.setImage(MusicPlayerImages.pauseImage, for: .normal)
+        }
+    }
     
-    
+    func playerPlaybackDurationChanged(player: AVPlayer, currentTime: CMTime, totalTime: CMTime) {
+        
+        if !currentTime.seconds.isNaN , !totalTime.seconds.isNaN{
+            self.durationProgressView.progress = Float(currentTime.seconds / totalTime.seconds)
+        }
+        
+    }
     
     
     

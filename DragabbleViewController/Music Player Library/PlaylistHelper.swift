@@ -22,13 +22,6 @@ struct MusicPlayerImages {
     
 }
 
-
-
-
-
-
-
-
 class PlaylistHelper: NSObject{
     
     // MARK: - Properties

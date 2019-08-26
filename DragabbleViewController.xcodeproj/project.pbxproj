@@ -31,6 +31,7 @@
 		97D7509D230E6A10008A4C9F /* ILRadioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D7509A230E6A10008A4C9F /* ILRadioPlayer.swift */; };
 		97D750A1230E8255008A4C9F /* PlaylistHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D750A0230E8255008A4C9F /* PlaylistHelper.swift */; };
 		97D750A3230E98A1008A4C9F /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D750A2230E98A1008A4C9F /* MusicPlayer.swift */; };
+		97D9D3C32313FFC8007A48E1 /* MulticastDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D9D3C22313FFC8007A48E1 /* MulticastDelegate.swift */; };
 		97E264CC230BE051001F1DB5 /* MarqueeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E264CB230BE051001F1DB5 /* MarqueeLabel.swift */; };
 		97E264CE230BE05B001F1DB5 /* NoReturnAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E264CD230BE05B001F1DB5 /* NoReturnAnimation.swift */; };
 		97E264D0230BE063001F1DB5 /* SingleShotOffscreenLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E264CF230BE063001F1DB5 /* SingleShotOffscreenLabel.swift */; };
@@ -78,6 +79,7 @@
 		97D7509A230E6A10008A4C9F /* ILRadioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ILRadioPlayer.swift; sourceTree = "<group>"; };
 		97D750A0230E8255008A4C9F /* PlaylistHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistHelper.swift; sourceTree = "<group>"; };
 		97D750A2230E98A1008A4C9F /* MusicPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
+		97D9D3C22313FFC8007A48E1 /* MulticastDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulticastDelegate.swift; sourceTree = "<group>"; };
 		97E264CB230BE051001F1DB5 /* MarqueeLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarqueeLabel.swift; sourceTree = "<group>"; };
 		97E264CD230BE05B001F1DB5 /* NoReturnAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoReturnAnimation.swift; sourceTree = "<group>"; };
 		97E264CF230BE063001F1DB5 /* SingleShotOffscreenLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleShotOffscreenLabel.swift; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				97939733230D21DD00D4A1E6 /* DynamicValue.swift */,
+				97D9D3C22313FFC8007A48E1 /* MulticastDelegate.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -352,6 +355,7 @@
 				97C9FC4A230D650000033545 /* MusicControlView.swift in Sources */,
 				9758A4C62306D5B9002BB114 /* CustomBottomBar.swift in Sources */,
 				97E264CC230BE051001F1DB5 /* MarqueeLabel.swift in Sources */,
+				97D9D3C32313FFC8007A48E1 /* MulticastDelegate.swift in Sources */,
 				97A0AF1C23041D79002E7D64 /* AppDelegate.swift in Sources */,
 				97A46F9A2304200D00C931D2 /* DraggableVC.swift in Sources */,
 				97E264DA230C27AB001F1DB5 /* MusicData.swift in Sources */,

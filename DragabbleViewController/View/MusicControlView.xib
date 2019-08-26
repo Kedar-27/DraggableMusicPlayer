@@ -207,6 +207,7 @@
                 <outlet property="likeButton" destination="tSf-5I-bOQ" id="5ra-cf-Qeq"/>
                 <outlet property="nextButton" destination="RxR-Hn-f7D" id="GUQ-wb-jL2"/>
                 <outlet property="playButton" destination="mIf-we-hHc" id="PXz-sJ-Iko"/>
+                <outlet property="playImageView" destination="P7Z-n1-saf" id="fxz-7Z-3DE"/>
                 <outlet property="previousButton" destination="lry-ol-mev" id="lUi-AS-ssy"/>
                 <outlet property="repeatButton" destination="56X-LD-vdR" id="mUr-0M-9Ws"/>
                 <outlet property="shareButton" destination="WKf-1s-vpy" id="VVk-sx-wYg"/>

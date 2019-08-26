@@ -89,26 +89,44 @@ class MusicPlayer: NSObject{
     
     private override init() {}
   
-    
-    
-    
  
-    weak var delegate: MusicPlayerDelegate?
+    var delegates = MulticastDelegate<MusicPlayerDelegate>()
     
     var player: AVPlayer?
     /// Player current state of type `MusicPlayerState`
     open private(set) var state = MusicPlayerState.urlNotSet {
         didSet {
             guard oldValue != state , let player = player else { return }
-            delegate?.playerStateDidChange!(player: player, state)
+            
+            delegates.invokeDelegates { (delegate) in
+                
+                
+                delegate.playerStateDidChange?(player: player, state)
+                
+
+            }
+            
+            
+            
         }
     }
     
     /// Playing state of type `MusicPlaybackState`
     open private(set) var playbackState = MusicPlayerPlaybackState.stopped {
         didSet {
+            
+            
             guard oldValue != playbackState , let player = player else { return }
-            delegate?.playbackStateDidChange!(player: player, playbackState)
+           
+            
+            delegates.invokeDelegates { (delegate ) in
+                delegate.playbackStateDidChange!(player: player, playbackState)
+            }
+            
+            
+            
+            
+            
         }
     }
     
@@ -345,17 +363,29 @@ class MusicPlayer: NSObject{
     open func playNext() {
         let nextIndex = self.currentIndex + 1
         
-        if nextIndex < self.playerItems.count{
+        if nextIndex < self.playerItems.count, let player = self.player{
             let nextItem = self.playerItems[nextIndex]
             self.currentIndex = nextIndex
             lastPlayerItem = self.player?.currentItem
             playerItem = nextItem
             
-            player?.replaceCurrentItem(with: nil)
-            player?.replaceCurrentItem(with: nextItem)
+            player.replaceCurrentItem(with: nil)
+            player.replaceCurrentItem(with: nextItem)
+            player.pause()
+            
             
             self.seekPlayer(to: .zero)
-            self.playSong()
+            
+            if self.playbackState == .playing{
+                self.playSong()
+                self.playbackState = .playing
+            }else{
+                self.pause()
+            }
+            
+            
+            
+            
             
         }
        
@@ -371,17 +401,26 @@ class MusicPlayer: NSObject{
         
         let prevIndex = self.currentIndex - 1
         
-        if prevIndex >= 0{
+        if prevIndex >= 0, let player = self.player{
             let prevItem = self.playerItems[prevIndex]
         
            // lastPlayerItem = prevIndex == 0 ? nil : self.playerItems[prevIndex - 1 ]
             playerItem = prevItem
             self.currentIndex = prevIndex
-            player?.replaceCurrentItem(with: nil)
-            player?.replaceCurrentItem(with: prevItem)
+            player.replaceCurrentItem(with: nil)
+            player.replaceCurrentItem(with: prevItem)
+            
+            player.pause()
+            
             
             self.seekPlayer(to: .zero)
-            self.playSong()
+            
+            if self.playbackState == .playing{
+                self.playSong()
+                self.playbackState = .playing
+            }else{
+                self.pause()
+            }
             
             
         }
@@ -439,7 +478,7 @@ class MusicPlayer: NSObject{
         guard lastPlayerItem != playerItem  , let mediaURL = (playerItem?.asset as? AVURLAsset)?.url.relativeString else { return }
         
         if let item = lastPlayerItem {
-            pause()
+          //  pause()
             
             NotificationCenter.default.removeObserver(self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: item)
             item.removeObserver(self, forKeyPath: "status")
@@ -463,8 +502,14 @@ class MusicPlayer: NSObject{
         }
         
         
-        self.delegate?.musicPlayerItemChanged?(player: self.player!, item: playerItem!  , url: mediaURL)
-      
+        
+        self.delegates.invokeDelegates { (delegate) in
+            delegate.musicPlayerItemChanged?(player: self.player!, item: playerItem!, url: mediaURL)
+        }
+        
+        
+        
+        
     }
     
     /**
@@ -479,9 +524,15 @@ class MusicPlayer: NSObject{
 
         player.seek(to: targetTime)
       
-        if !currentItem.duration.seconds.isNaN{
-            self.delegate?.playerPlaybackDurationChanged?(player: player, currentTime: targetTime, totalTime: currentItem.duration)
-        }
+     //   if !currentItem.duration.seconds.isNaN{
+            
+            self.delegates.invokeDelegates { (delegate) in
+                delegate.playerPlaybackDurationChanged?(player: player, currentTime: targetTime, totalTime: currentItem.duration)
+            }
+            
+            
+         
+       // }
         
         
         
@@ -515,17 +566,19 @@ class MusicPlayer: NSObject{
         let interval = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         let mainQueue = DispatchQueue.main
         self.timeObserverToken = player!.addPeriodicTimeObserver(forInterval: interval, queue: mainQueue, using: { [weak self] time in
-            guard  let player = self?.player , let currentItem = player.currentItem , !currentItem.duration.seconds.isNaN , let strongSelf = self else {return}
+            guard  let player = self?.player , let currentItem = player.currentItem
+                //, !currentItem.duration.seconds.isNaN
+                , let strongSelf = self else {return}
             
            
             
             if currentItem.status == .readyToPlay, !strongSelf.isDurationChanging{
-                strongSelf.delegate?.playerPlaybackDurationChanged?(player: player, currentTime: currentItem.currentTime(), totalTime: currentItem.duration)
+                strongSelf.delegates.invokeDelegates { (delegate) in
+                    delegate.playerPlaybackDurationChanged?(player: player, currentTime: currentItem.currentTime(), totalTime: currentItem.duration)
+                }
+            
             }
-            
-            
-            
-            
+ 
         })
     }
 

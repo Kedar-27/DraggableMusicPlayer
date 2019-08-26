@@ -27,7 +27,7 @@ class DraggableVC: UIViewController {
         didSet {
             self.pagerView.register(FSPagerViewCell.self, forCellWithReuseIdentifier: "cell")
             self.pagerView.transformer = CustomFSPagerViewTransformer(type: .linear)
-            self.pagerView.itemSize = CGSize(width: UIScreen.main.bounds.width * 0.6, height: UIScreen.main.bounds.width * 0.6)
+            self.pagerView.itemSize = CGSize(width: self.bannerView.bounds.width * 0.84 , height: self.bannerView.bounds.height)
             self.pagerView.decelerationDistance = 1
         }
     }
@@ -148,7 +148,7 @@ class DraggableVC: UIViewController {
     }
     
     func setupMusicPlayer(){
-        self.musicPlayer.delegate = self
+        self.musicPlayer.delegates.addDelegate(self)
         let helper = PlaylistHelper.shared
         helper.mediaURLs = musicData.compactMap({$0.url})
         
@@ -286,15 +286,14 @@ extension DraggableVC: FSPagerViewDataSource, FSPagerViewDelegate{
 extension DraggableVC: MusicPlayerDelegate{
     func playerStateDidChange(player: AVPlayer, _ playerState: MusicPlayerState) {
         
-        print(player)
-        print(playerState.description)
+        print("Player State--- \(playerState.description)")
+       
         
         
     }
     
     func playbackStateDidChange(player: AVPlayer, _ playbackState: MusicPlayerPlaybackState) {
-        print(player)
-        print(playbackState.description)
+        print("Playback State --- \(playbackState.description)")
     }
     
     func playerPlaybackDurationChanged(player: AVPlayer, currentTime: CMTime, totalTime: CMTime) {
@@ -307,9 +306,21 @@ extension DraggableVC: MusicPlayerDelegate{
          //   guard let strongSelf = self else{return}
         
             self.musicControlView.currentTimeLabel.text  = PlaylistHelper.shared.getTimeString(from: currentTime)
+        
+        
+    
             self.musicControlView.durationSlider.value = Float(currentTime.seconds)
+    
+        
+            if !totalTime.seconds.isNaN{
+                self.musicControlView.durationSlider.maximumValue = Float(totalTime.seconds)
+            }
+        
+        
+        
+        
             self.musicControlView.durationLabel.text = PlaylistHelper.shared.getTimeString(from: totalTime)
-            self.musicControlView.durationSlider.maximumValue = Float(totalTime.seconds)
+        
         //}
     }
     

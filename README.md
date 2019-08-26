@@ -1,5 +1,6 @@
 # DraggableMusicPlayer
-Demo iOS Application for dragging transition on viewController and Music Player library
+Demo iOS Application for dragging transition on viewController, Data binding, Music Player library Helper and Multicast delegate patterns
+
 
 
 Reference:

@@ -364,9 +364,19 @@ class MusicPlayer: NSObject{
         let nextIndex = self.currentIndex + 1
         
         if nextIndex < self.playerItems.count, let player = self.player{
+            
+            
+            
+            self.seekPlayer(to: .zero)
+            
+            
             let nextItem = self.playerItems[nextIndex]
             self.currentIndex = nextIndex
             lastPlayerItem = self.player?.currentItem
+           
+            
+            
+            
             playerItem = nextItem
             
             player.replaceCurrentItem(with: nil)
@@ -374,7 +384,7 @@ class MusicPlayer: NSObject{
             player.pause()
             
             
-            self.seekPlayer(to: .zero)
+            
             
             if self.playbackState == .playing{
                 self.playSong()
@@ -405,6 +415,9 @@ class MusicPlayer: NSObject{
             let prevItem = self.playerItems[prevIndex]
         
            // lastPlayerItem = prevIndex == 0 ? nil : self.playerItems[prevIndex - 1 ]
+           
+             self.seekPlayer(to: .zero)
+            
             playerItem = prevItem
             self.currentIndex = prevIndex
             player.replaceCurrentItem(with: nil)
@@ -413,7 +426,7 @@ class MusicPlayer: NSObject{
             player.pause()
             
             
-            self.seekPlayer(to: .zero)
+           
             
             if self.playbackState == .playing{
                 self.playSong()

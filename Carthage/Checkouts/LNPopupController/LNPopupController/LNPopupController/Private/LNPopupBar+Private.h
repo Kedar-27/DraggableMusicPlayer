@@ -51,6 +51,8 @@ inline __attribute__((always_inline)) LNPopupBarStyle _LNPopupResolveBarStyleFro
 @property (nonatomic, strong) UIColor* systemBackgroundColor;
 @property (nonatomic, strong) UIColor* systemShadowColor;
 
+@property (nonatomic, strong) UIView* bottomShadowView;
+
 @property (nonatomic, weak, readwrite) LNPopupItem* popupItem;
 
 @property (nonatomic, weak) id<_LNPopupBarDelegate> _barDelegate;
@@ -60,13 +62,13 @@ inline __attribute__((always_inline)) LNPopupBarStyle _LNPopupResolveBarStyleFro
 
 @property (nonatomic, strong) UIImage* image;
 
-@property (nonatomic, strong) UIToolbar* toolbar;
-
 @property (nonatomic, strong) UIView* highlightView;
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated;
 
 @property (nonatomic, strong) UIProgressView* progressView;
 
+@property (nonatomic, strong) UIView* contentView;
+//@property (nonatomic, strong) UIToolbar* toolbar;
 @property (nonatomic, strong) UIVisualEffectView* backgroundView;
 
 @property (nonatomic, copy) NSString* accessibilityCenterLabel;

@@ -47,14 +47,15 @@ class DemoAlbumTableViewController: UITableViewController {
 	
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
-		
+		#if !targetEnvironment(macCatalyst)
 		if ProcessInfo.processInfo.operatingSystemVersion.majorVersion <= 10 {
 			let insets = UIEdgeInsets.init(top: topLayoutGuide.length, left: 0, bottom: bottomLayoutGuide.length, right: 0)
 			tableView.contentInset = insets
 			tableView.scrollIndicatorInsets = insets
 		}
+		#endif
 	}
-
+	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		
@@ -107,6 +108,10 @@ class DemoAlbumTableViewController: UITableViewController {
 		popupContentController.popupItem.accessibilityHint = NSLocalizedString("Double Tap to Expand the Mini Player", comment: "")
 		tabBarController?.popupContentView.popupCloseButton.accessibilityLabel = NSLocalizedString("Dismiss Now Playing Screen", comment: "")
 		
+		#if targetEnvironment(macCatalyst)
+		tabBarController?.popupBar.inheritsVisualStyleFromDockingView = true
+		#endif
+		
 		tabBarController?.presentPopupBar(withContentViewController: popupContentController, animated: true, completion: nil)
 		
 		if #available(iOS 13.0, *) {
@@ -118,7 +123,7 @@ class DemoAlbumTableViewController: UITableViewController {
 		tableView.deselectRow(at: indexPath, animated: true)
 	}
 	
-	override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-		cell.backgroundColor = UIColor.clear
-	}
+//	override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//		cell.backgroundColor = UIColor.clear
+//	}
 }

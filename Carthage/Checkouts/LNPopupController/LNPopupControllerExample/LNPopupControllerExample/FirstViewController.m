@@ -12,6 +12,7 @@
 #import "LoremIpsum.h"
 #import "RandomColors.h"
 #import "SettingsTableViewController.h"
+@import UIKit;
 
 @interface TabBar : UITabBar @end
 @implementation TabBar
@@ -25,14 +26,62 @@
 
 @end
 
+@interface UIViewController ()
+
+- (id)_segueTemplateWithIdentifier:(id)arg1;
+
+@end
+
+@interface NSObject ()
+
+- (id)instantiateOrFindDestinationViewControllerWithSender:(id)arg1;
+
+@end
+
+@interface DemoGalleryControllerTableView : UITableView @end
+@implementation DemoGalleryControllerTableView
+
+- (BOOL)canBecomeFocused
+{
+	return NO;
+}
+
+@end
+
 @interface DemoGalleryController : UITableViewController @end
 @implementation DemoGalleryController
 
 - (IBAction)unwindToGallery:(UIStoryboardSegue *)unwindSegue { }
 
+- (nullable UIContextMenuConfiguration *)tableView:(UITableView *)tableView contextMenuConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath point:(CGPoint)point API_AVAILABLE(ios(13.0))
+{
+	return [UIContextMenuConfiguration configurationWithIdentifier:@"Preview" previewProvider:^ UIViewController* {
+		NSString* cellIdentifier = [tableView cellForRowAtIndexPath:indexPath].reuseIdentifier;
+		id segueTemplate = [self _segueTemplateWithIdentifier:cellIdentifier];
+		return [segueTemplate instantiateOrFindDestinationViewControllerWithSender:self];;
+	} actionProvider:nil];
+}
+
+- (void)tableView:(UITableView *)tableView willPerformPreviewActionForMenuWithConfiguration:(UIContextMenuConfiguration *)configuration animator:(id<UIContextMenuInteractionCommitAnimating>)animator API_AVAILABLE(ios(13.0))
+{
+	UIViewController* vc = animator.previewViewController;
+	
+	[animator addCompletion:^{
+		[self presentViewController:vc animated:YES completion:nil];
+	}];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+	if(segue.destinationViewController.modalPresentationStyle != UIModalPresentationFullScreen)
+	{
+		[self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow animated:YES];
+	}
+}
+
 @end
 
-@interface FirstViewController () <LNPopupBarPreviewingDelegate>
+@interface FirstViewController () <UIContextMenuInteractionDelegate>
 
 @end
 
@@ -40,6 +89,8 @@
 {
 	__weak IBOutlet UIButton *_galleryButton;
 	__weak IBOutlet UIButton *_nextButton;
+	
+	__weak IBOutlet UIBarButtonItem *_barStyleButton;
 }
 
 - (void)viewDidLoad
@@ -48,6 +99,8 @@
 	
 	if (@available(iOS 13.0, *)) {
 		self.view.backgroundColor = LNRandomAdaptiveColor();
+		
+		_barStyleButton.title = NSLocalizedString(@"Style", @"");
 	} else {
 		self.view.backgroundColor = LNRandomLightColor();
 	}
@@ -75,16 +128,25 @@
 
 - (IBAction)_changeBarStyle:(id)sender
 {
-	self.navigationController.toolbar.barStyle = 1 - self.navigationController.toolbar.barStyle;
-	
-	UIColor* adaptiveColor;
-	if (@available(iOS 13.0, *)) {
-		adaptiveColor = LNRandomAdaptiveInvertedColor();
-	} else {
-		adaptiveColor = LNRandomDarkColor();
+	if (@available(iOS 13.0, *))
+	{
+		UIUserInterfaceStyle currentStyle = self.navigationController.traitCollection.userInterfaceStyle;
+		
+		self.navigationController.overrideUserInterfaceStyle = currentStyle == UIUserInterfaceStyleLight ? UIUserInterfaceStyleDark : UIUserInterfaceStyleLight;
+	}
+	else
+	{
+		self.navigationController.toolbar.barStyle = 1 - self.navigationController.toolbar.barStyle;
 	}
 	
-	self.navigationController.toolbar.tintColor = self.navigationController.toolbar.barStyle ? LNRandomLightColor() : adaptiveColor;
+	if (@available(iOS 13.0, *))
+	{
+		self.navigationController.toolbar.tintColor = LNRandomAdaptiveInvertedColor();
+	}
+	else
+	{
+		self.navigationController.toolbar.tintColor = self.navigationController.toolbar.barStyle ? LNRandomLightColor() : LNRandomDarkColor();
+	}
 	[self.navigationController.toolbar.items enumerateObjectsUsingBlock:^(UIBarButtonItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		obj.tintColor = self.navigationController.toolbar.tintColor;
 	}];
@@ -94,19 +156,9 @@
 	[self.navigationController updatePopupBarAppearance];
 }
 
-- (IBAction)_presentBar:(id)sender
+- (UIViewController*)_targetVCForPopup
 {
-	//All this logic is just so I can use the same controllers over and over in all examples. :-)
-	
-	if(sender == nil &&
-	   self.navigationController == nil &&
-	   self.splitViewController != nil &&
-	   self != self.splitViewController.viewControllers.firstObject)
-	{
-		return;
-	}
-	
-	UIViewController* targetVC = self.navigationController == nil ? self.splitViewController : nil;
+	UIViewController* targetVC = self.navigationController == nil ? self.splitViewController != self.view.window.rootViewController ? self.splitViewController : nil : nil;
 	
 	if(targetVC == nil)
 	{
@@ -122,6 +174,24 @@
 		}
 	}
 	
+	return targetVC;
+}
+
+- (IBAction)_presentBar:(id)sender
+{
+	//All this logic is just so I can use the same controllers over and over in all examples. :-)
+	
+	if(sender == nil &&
+	   self.navigationController == nil &&
+	   self.splitViewController != nil &&
+	   self.splitViewController != self.view.window.rootViewController &&
+	   self != self.splitViewController.viewControllers.firstObject)
+	{
+		return;
+	}
+	
+	UIViewController* targetVC = [self _targetVCForPopup];
+	
 	if(targetVC.popupContentViewController != nil)
 	{
 		return;
@@ -136,7 +206,7 @@
 	UIViewController* demoVC = [DemoPopupContentViewController new];
 	
 	if (@available(iOS 13.0, *)) {
-		demoVC.view.backgroundColor = LNRandomAdaptiveInvertedColor();
+		demoVC.view.backgroundColor = LNRandomDarkColor();
 	} else {
 		demoVC.view.backgroundColor = LNRandomDarkColor();
 	}
@@ -156,29 +226,49 @@
 	
 	UILabel* topLabel = [UILabel new];
 	topLabel.text = NSLocalizedString(@"Top", @"");
-	if (@available(iOS 13.0, *)) {
-		topLabel.textColor = [UIColor systemBackgroundColor];
-	} else {
-		topLabel.textColor = [UIColor whiteColor];
-	}
+	topLabel.textColor = [UIColor whiteColor];
 	topLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
 	topLabel.translatesAutoresizingMaskIntoConstraints = NO;
 	[demoVC.view addSubview:topLabel];
-	[NSLayoutConstraint activateConstraints:@[[topLabel.topAnchor constraintEqualToAnchor:demoVC.topLayoutGuide.bottomAnchor],
-											  [topLabel.centerXAnchor constraintEqualToAnchor:demoVC.view.centerXAnchor constant:40]]];
+	if(@available(iOS 11.0, *))
+	{
+		[NSLayoutConstraint activateConstraints:@[
+			[topLabel.topAnchor constraintEqualToAnchor:demoVC.view.safeAreaLayoutGuide.topAnchor],
+			[topLabel.centerXAnchor constraintEqualToAnchor:demoVC.view.centerXAnchor constant:40]
+		]];
+	}
+#if ! TARGET_OS_MACCATALYST
+	else
+	{
+		[NSLayoutConstraint activateConstraints:@[
+			[topLabel.topAnchor constraintEqualToAnchor:demoVC.topLayoutGuide.bottomAnchor],
+			[topLabel.centerXAnchor constraintEqualToAnchor:demoVC.view.centerXAnchor constant:40]
+		]];
+	}
+#endif
 	
 	UILabel* bottomLabel = [UILabel new];
 	bottomLabel.text = NSLocalizedString(@"Bottom", @"");
-	if (@available(iOS 13.0, *)) {
-		bottomLabel.textColor = [UIColor systemBackgroundColor];
-	} else {
-		bottomLabel.textColor = [UIColor whiteColor];
-	}
+	bottomLabel.textColor = [UIColor whiteColor];
 	bottomLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
 	bottomLabel.translatesAutoresizingMaskIntoConstraints = NO;
 	[demoVC.view addSubview:bottomLabel];
-	[NSLayoutConstraint activateConstraints:@[[bottomLabel.bottomAnchor constraintEqualToAnchor:demoVC.bottomLayoutGuide.topAnchor],
-											  [bottomLabel.centerXAnchor constraintEqualToAnchor:demoVC.view.centerXAnchor]]];
+	if(@available(iOS 11.0, *))
+	{
+		[NSLayoutConstraint activateConstraints:@[
+			[bottomLabel.bottomAnchor constraintEqualToAnchor:demoVC.view.safeAreaLayoutGuide.bottomAnchor],
+			[bottomLabel.centerXAnchor constraintEqualToAnchor:demoVC.view.centerXAnchor]
+		]];
+	}
+#if ! TARGET_OS_MACCATALYST
+	else
+	{
+		[NSLayoutConstraint activateConstraints:@[
+			[bottomLabel.bottomAnchor constraintEqualToAnchor:demoVC.bottomLayoutGuide.topAnchor],
+			[bottomLabel.centerXAnchor constraintEqualToAnchor:demoVC.view.centerXAnchor]
+		]];
+	}
+#endif
 	
 	demoVC.popupItem.accessibilityLabel = NSLocalizedString(@"Custom popup bar accessibility label", @"");
 	demoVC.popupItem.accessibilityHint = NSLocalizedString(@"Custom popup bar accessibility hint", @"");
@@ -209,6 +299,12 @@
 		[targetVC.popupBar setBackgroundStyle:UIBlurEffectStyleDark];
 		[targetVC.popupBar setTintColor:[UIColor yellowColor]];
 	}
+	
+	if (@available(iOS 13.0, *))
+	{
+		UIContextMenuInteraction* i = [[UIContextMenuInteraction alloc] initWithDelegate:self];
+		[targetVC.popupBar addInteraction:i];
+	}
 
 	[targetVC presentPopupBarWithContentViewController:demoVC animated:YES completion:nil];
 }
@@ -234,32 +330,21 @@
 	[segue.destinationViewController setHidesBottomBarWhenPushed:YES];
 }
 
-#pragma mark LNPopupBarPreviewingDelegate
+#pragma mark UIContextMenuInteractionDelegate
 
-- (UIViewController *)previewingViewControllerForPopupBar:(LNPopupBar*)popupBar
+- (nullable UIContextMenuConfiguration *)contextMenuInteraction:(UIContextMenuInteraction *)interaction configurationForMenuAtLocation:(CGPoint)location API_AVAILABLE(ios(13.0))
 {
-	UIBlurEffect* blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight];
-	
-	UIViewController* vc = [UIViewController new];
-	vc.view = [[UIVisualEffectView alloc] initWithEffect:blur];
-	vc.view.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.0];
-	vc.preferredContentSize = CGSizeMake([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height / 2);
-	
-	UILabel* label = [UILabel new];
-	label.text = @"Hello from\n3D Touch!";
-	label.numberOfLines = 0;
-	label.textColor = [UIColor blackColor];
-	label.font = [UIFont systemFontOfSize:50 weight:UIFontWeightBlack];
-	[label sizeToFit];
-	label.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin;
-	
-	UIVisualEffectView* vib = [[UIVisualEffectView alloc] initWithEffect:[UIVibrancyEffect effectForBlurEffect:blur]];
-	vib.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-	[vib.contentView addSubview:label];
-	
-	[[(UIVisualEffectView*)vc.view contentView] addSubview:vib];
-	
-	return vc;
+	return [UIContextMenuConfiguration configurationWithIdentifier:nil previewProvider:nil actionProvider:nil];
+}
+
+- (void)contextMenuInteraction:(UIContextMenuInteraction *)interaction willEndForConfiguration:(UIContextMenuConfiguration *)configuration animator:(nullable id<UIContextMenuInteractionAnimating>)animator API_AVAILABLE(ios(13.0))
+{
+	[animator addCompletion:^{
+		UIActivityViewController* avc = [[UIActivityViewController alloc] initWithActivityItems:@[[NSURL URLWithString:@"https://github.com/LeoNatan/LNPopupController"]] applicationActivities:nil];
+		avc.modalPresentationStyle = UIModalPresentationFormSheet;
+		avc.popoverPresentationController.sourceView = [self _targetVCForPopup].popupBar;
+		[self presentViewController:avc animated:YES completion:nil];
+	}];
 }
 
 @end

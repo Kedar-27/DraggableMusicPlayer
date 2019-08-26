@@ -14,6 +14,7 @@ import AVFoundation
     @objc optional func playbackStateDidChange(player: AVPlayer, _ playbackState: MusicPlayerPlaybackState)
     @objc optional func playerPlaybackDurationChanged(player: AVPlayer, currentTime: CMTime , totalTime: CMTime)
     @objc optional func musicMetaData(title: String , artistName: String)
+    @objc optional func musicPlayerItemChanged(player: AVPlayer , item: AVPlayerItem ,url: String)
 }
 
 // MARK: - MusicPlayingState
@@ -88,6 +89,9 @@ class MusicPlayer: NSObject{
     
     private override init() {}
   
+    
+    
+    
  
     weak var delegate: MusicPlayerDelegate?
     
@@ -114,7 +118,10 @@ class MusicPlayer: NSObject{
     /// Check for headphones, used to handle audio route change
     private var headphonesConnected: Bool = false
     
+    /// Flag for resolving multiple call of durationchanged delegate 
+    public var isDurationChanging: Bool = false
     
+
     /// Reachability for network interruption handling
     private let reachability = try? Reachability()
     /// Current network connectivity
@@ -139,8 +146,16 @@ class MusicPlayer: NSObject{
     
     /// Default player item
     private var playerItem: AVPlayerItem? {
-        didSet {
+        willSet{
             
+            removePeriodicTimeObserver()
+            
+        }
+        
+        
+        didSet {
+            // For observing time
+            self.addTimeObserver()
             playerItemDidChange()
         }
     }
@@ -165,17 +180,12 @@ class MusicPlayer: NSObject{
         
         if self.player == nil{
             self.player = AVPlayer()
-            self.player?.volume = 1.0
         }
         
         
         self.playerItem = self.playerItems.first
         
        
-        
-        
-        
-        
         // Enable bluetooth playback
         let audioSession = AVAudioSession.sharedInstance()
         try? audioSession.setCategory(AVAudioSession.Category.playback, options: [.defaultToSpeaker , .allowBluetooth])
@@ -192,8 +202,7 @@ class MusicPlayer: NSObject{
         isConnected = reachability?.connection != .none
         
         
-        // For observing time
-        self.addTimeObserver()
+        
         
     }
     
@@ -342,6 +351,7 @@ class MusicPlayer: NSObject{
             lastPlayerItem = self.player?.currentItem
             playerItem = nextItem
             
+            player?.replaceCurrentItem(with: nil)
             player?.replaceCurrentItem(with: nextItem)
             
             self.seekPlayer(to: .zero)
@@ -367,6 +377,7 @@ class MusicPlayer: NSObject{
            // lastPlayerItem = prevIndex == 0 ? nil : self.playerItems[prevIndex - 1 ]
             playerItem = prevItem
             self.currentIndex = prevIndex
+            player?.replaceCurrentItem(with: nil)
             player?.replaceCurrentItem(with: prevItem)
             
             self.seekPlayer(to: .zero)
@@ -425,7 +436,7 @@ class MusicPlayer: NSObject{
  
     private func playerItemDidChange() {
         
-        guard lastPlayerItem != playerItem else { return }
+        guard lastPlayerItem != playerItem  , let mediaURL = (playerItem?.asset as? AVURLAsset)?.url.relativeString else { return }
         
         if let item = lastPlayerItem {
             pause()
@@ -452,9 +463,8 @@ class MusicPlayer: NSObject{
         }
         
         
-        
-        
-       // delegate?.radioPlayer?(self, itemDidChange: radioURL)
+        self.delegate?.musicPlayerItemChanged?(player: self.player!, item: playerItem!  , url: mediaURL)
+      
     }
     
     /**
@@ -465,6 +475,8 @@ class MusicPlayer: NSObject{
     public func seekPlayer(to targetTime : CMTime){
         guard let player = self.player , let currentItem = player.currentItem else{return}
     
+        print(targetTime.seconds)
+
         player.seek(to: targetTime)
       
         if !currentItem.duration.seconds.isNaN{
@@ -505,7 +517,15 @@ class MusicPlayer: NSObject{
         self.timeObserverToken = player!.addPeriodicTimeObserver(forInterval: interval, queue: mainQueue, using: { [weak self] time in
             guard  let player = self?.player , let currentItem = player.currentItem , !currentItem.duration.seconds.isNaN , let strongSelf = self else {return}
             
-            strongSelf.delegate?.playerPlaybackDurationChanged?(player: player, currentTime: currentItem.currentTime(), totalTime: currentItem.duration)
+           
+            
+            if currentItem.status == .readyToPlay, !strongSelf.isDurationChanging{
+                strongSelf.delegate?.playerPlaybackDurationChanged?(player: player, currentTime: currentItem.currentTime(), totalTime: currentItem.duration)
+            }
+            
+            
+            
+            
         })
     }
 
@@ -605,3 +625,6 @@ extension AVPlayer {
         return rate != 0 && error == nil
     }
 }
+
+
+

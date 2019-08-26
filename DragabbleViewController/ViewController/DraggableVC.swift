@@ -137,8 +137,7 @@ class DraggableVC: UIViewController {
         })
         
         musicView.durationSlider.addTarget(self, action: #selector(sliderValueChanged(_:)) , for: .valueChanged)
-        
-        
+        musicView.durationSlider.addTarget(self, action: #selector(sliderEditingEnded(_:)) , for: .touchUpInside)
         
         musicView.previousButton.addTarget(self, action: #selector(prevButtonClicked(_:)), for: .touchUpInside)
         musicView.nextButton.addTarget(self, action: #selector(nextButtonClicked(_:)), for: .touchUpInside)
@@ -168,14 +167,14 @@ class DraggableVC: UIViewController {
     // MARK: - IBActions
 
     @objc func prevButtonClicked(_ sender: Any) {
-        let newIndex = self.pagerView.currentIndex - 1
-        
-        guard  newIndex >= 0 else {
-            return
-        }
-        self.pagerView.scrollToItem(at: newIndex , animated: true)
-        
-        self.viewModel.currentMusicItem.value = self.musicData[newIndex]
+//        let newIndex = self.pagerView.currentIndex - 1
+//
+//        guard  newIndex >= 0 else {
+//            return
+//        }
+//        self.pagerView.scrollToItem(at: newIndex , animated: true)
+//
+//        self.viewModel.currentMusicItem.value = self.musicData[newIndex]
         
          musicPlayer.playPrevious()
         
@@ -183,14 +182,14 @@ class DraggableVC: UIViewController {
     
     @objc func nextButtonClicked(_ sender: Any) {
         
-        let currentIndex = self.pagerView.currentIndex + 1
-        
-        
-        guard  currentIndex < self.musicData.count else {
-            return
-        }
-        self.pagerView.scrollToItem(at: currentIndex , animated: true)
-        self.viewModel.currentMusicItem.value = self.musicData[currentIndex]
+//        let currentIndex = self.pagerView.currentIndex + 1
+//
+//
+//        guard  currentIndex < self.musicData.count else {
+//            return
+//        }
+//        self.pagerView.scrollToItem(at: currentIndex , animated: true)
+//        self.viewModel.currentMusicItem.value = self.musicData[currentIndex]
     
         musicPlayer.playNext()
     
@@ -219,12 +218,14 @@ class DraggableVC: UIViewController {
         
         let seconds : Int64 = Int64(playbackSlider.value)
         let targetTime:CMTime = CMTimeMake(value: seconds, timescale: 1)
-        
+        musicPlayer.isDurationChanging = true
         musicPlayer.seekPlayer(to: targetTime)
     }
     
-    
-    
+    @objc func sliderEditingEnded(_ playbackSlider: UISlider){
+       musicPlayer.isDurationChanging = false
+       
+    }
 }
 
 
@@ -286,52 +287,43 @@ extension DraggableVC: MusicPlayerDelegate{
     func playerStateDidChange(player: AVPlayer, _ playerState: MusicPlayerState) {
         
         print(player)
-        print(playerState)
+        print(playerState.description)
         
         
     }
     
     func playbackStateDidChange(player: AVPlayer, _ playbackState: MusicPlayerPlaybackState) {
         print(player)
-        print(playbackState)
+        print(playbackState.description)
     }
     
     func playerPlaybackDurationChanged(player: AVPlayer, currentTime: CMTime, totalTime: CMTime) {
-//        print(player)
-//        print(currentTime)
-//        print(totalTime)
- 
-        if currentTime.seconds > 80{
-            
-            
-            
-            
-            
-            
-            
-        }
-        
-        
-        
-        print(currentTime.seconds)
-        
-        
-        DispatchQueue.main.async { [weak self] in
-            
-            guard let strongSelf = self else{return}
-            
-            strongSelf.musicControlView.currentTimeLabel.text  = PlaylistHelper.shared.getTimeString(from: currentTime)
-            strongSelf.musicControlView.durationSlider.value = Float(currentTime.seconds)
-            strongSelf.musicControlView.durationLabel.text = PlaylistHelper.shared.getTimeString(from: totalTime)
-            strongSelf.musicControlView.durationSlider.maximumValue = Float(totalTime.seconds)
-        }
-        
-        
+
     
         
-    
-    
+        
+       // DispatchQueue.main.async { [weak self] in
+            
+         //   guard let strongSelf = self else{return}
+        
+            self.musicControlView.currentTimeLabel.text  = PlaylistHelper.shared.getTimeString(from: currentTime)
+            self.musicControlView.durationSlider.value = Float(currentTime.seconds)
+            self.musicControlView.durationLabel.text = PlaylistHelper.shared.getTimeString(from: totalTime)
+            self.musicControlView.durationSlider.maximumValue = Float(totalTime.seconds)
+        //}
     }
+    
+    func musicPlayerItemChanged(player: AVPlayer, item: AVPlayerItem, url: String) {
+        
+        if  let currentIndex = self.musicData.firstIndex(where: {$0.url == url}) , currentIndex < self.pagerView.numberOfItems {
+            self.pagerView.scrollToItem(at: currentIndex , animated: true)
+            self.viewModel.currentMusicItem.value = self.musicData[currentIndex]
+            
+        }
+    }
+    
+    
+    
     
 }
 

@@ -33,7 +33,7 @@
                         </label>
                     </subviews>
                 </stackView>
-                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="337-9p-Jwz">
+                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="337-9p-Jwz" customClass="ILAudioSlider" customModule="DragabbleViewController" customModuleProvider="target">
                     <rect key="frame" x="68.5" y="83" width="745" height="31"/>
                 </slider>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wig-lL-n1O">
@@ -203,7 +203,7 @@
                 <outlet property="currentTimeLabel" destination="wig-lL-n1O" id="erh-Qn-pVZ"/>
                 <outlet property="disLikeButton" destination="60J-6O-bM2" id="MZv-t2-Sfe"/>
                 <outlet property="durationLabel" destination="faU-yd-N0s" id="cId-H3-Xno"/>
-                <outlet property="durationSlider" destination="337-9p-Jwz" id="Nf8-IG-jqE"/>
+                <outlet property="durationSlider" destination="337-9p-Jwz" id="aGb-Cy-M4R"/>
                 <outlet property="likeButton" destination="tSf-5I-bOQ" id="5ra-cf-Qeq"/>
                 <outlet property="nextButton" destination="RxR-Hn-f7D" id="GUQ-wb-jL2"/>
                 <outlet property="playButton" destination="mIf-we-hHc" id="PXz-sJ-Iko"/>

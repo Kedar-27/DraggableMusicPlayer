@@ -19,6 +19,14 @@ class CustomBottomBar: LNPopupCustomBarViewController {
     // MARK: - Outlets
     @IBOutlet weak var titleLabel: MarqueeLabel!
     @IBOutlet weak var subtitleLabel: MarqueeLabel!
+    @IBOutlet weak var trackImageView: UIImageView!
+    
+    @IBOutlet weak var previousButton: UIButton!
+    @IBOutlet weak var playButton: UIButton!
+    @IBOutlet weak var nextButton: UIButton!
+    @IBOutlet weak var likeButton: UIButton!
+    
+    
     
     
     
@@ -27,6 +35,9 @@ class CustomBottomBar: LNPopupCustomBarViewController {
         let viewModel = MusicDataViewModel.shared
         return viewModel
     }()
+    
+    var musicPlayer = MusicPlayer.shared
+    
     
     
     
@@ -89,17 +100,22 @@ class CustomBottomBar: LNPopupCustomBarViewController {
         self.viewModel.currentMusicItem.addAndNotify(observer: self, completionHandler: { [weak self] (music) in
             self?.titleLabel.text = music.title
             self?.subtitleLabel.text = music.subtitle
+            self?.trackImageView.image = UIImage(named: music.image)
         })
         
         
+        self.musicPlayer.delegate = self
         
+        self.playButton.setImage(MusicPlayerImages.playImage, for: .normal)
+        self.previousButton.setImage(MusicPlayerImages.prevImage, for: .normal)
+        self.nextButton.setImage(MusicPlayerImages.nextImage, for: .normal)
+        self.likeButton.setImage(MusicPlayerImages.likeImage, for: .normal)
     }
     
     func setupUI(){
+     
         
-        
-        
-        
+        //
     }
 
     
@@ -108,7 +124,7 @@ class CustomBottomBar: LNPopupCustomBarViewController {
     
     @IBAction func prevButtonClicked(_ sender: Any) {
         
-        
+        self.musicPlayer.playPrevious()
         
     }
     
@@ -116,7 +132,7 @@ class CustomBottomBar: LNPopupCustomBarViewController {
     @IBAction func nextButtonClicked(_ sender: Any) {
         
         
-        
+        self.musicPlayer.playNext()
         
         
         
@@ -126,7 +142,7 @@ class CustomBottomBar: LNPopupCustomBarViewController {
     
     @IBAction func playButtonClicked(_ sender: Any) {
         
-        
+        self.musicPlayer.play()
         
     }
     
@@ -134,3 +150,13 @@ class CustomBottomBar: LNPopupCustomBarViewController {
 
 }
 
+extension CustomBottomBar: MusicPlayerDelegate{
+    
+    
+    
+    
+    
+    
+    
+    
+}

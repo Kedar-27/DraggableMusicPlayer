@@ -6,8 +6,26 @@
 //  Copyright © 2019 Kedar Sukerkar. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import AVFoundation
+
+
+struct MusicPlayerImages {
+    static let playImage = UIImage(named: "play") ?? UIImage()
+    static let pauseImage = UIImage(named: "pause") ?? UIImage()
+    static let prevImage = UIImage(named: "previous") ?? UIImage()
+    static let nextImage = UIImage(named: "next") ?? UIImage()
+    static let shuffleImage = UIImage(named: "shuffle") ?? UIImage()
+    static let repeatImage = UIImage(named: "repeat") ?? UIImage()
+    static let shareImage = UIImage(named: "share") ?? UIImage()
+    static let likeImage = UIImage(named: "like") ?? UIImage()
+    
+}
+
+
+
+
+
 
 
 
@@ -75,12 +93,6 @@ class PlaylistHelper: NSObject{
             return String(format: "%02i:%02i", arguments: [minutes,seconds])
         }
     }
-    
-    
-    
-    
-    
-    
 }
 
 

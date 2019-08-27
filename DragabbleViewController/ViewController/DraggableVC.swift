@@ -136,8 +136,8 @@ class DraggableVC: UIViewController {
                 musicView.artistNameLabel.text = music.subtitle
         })
         
-        musicView.durationSlider.addTarget(self, action: #selector(sliderValueChanged(_:)) , for: .valueChanged)
-        musicView.durationSlider.addTarget(self, action: #selector(sliderEditingEnded(_:)) , for: .touchUpInside)
+        musicView.durationSlider.addTarget(self, action: #selector(sliderValueChanged(_:event:)) , for: .valueChanged)
+        musicView.durationSlider.addTarget(self, action: #selector(sliderEditingEnded(_:event:)) , for: .touchUpInside)
         
         musicView.previousButton.addTarget(self, action: #selector(prevButtonClicked(_:)), for: .touchUpInside)
         musicView.nextButton.addTarget(self, action: #selector(nextButtonClicked(_:)), for: .touchUpInside)
@@ -214,16 +214,43 @@ class DraggableVC: UIViewController {
         
     }
     
-    @objc func sliderValueChanged(_ playbackSlider: UISlider){
+    @objc func sliderValueChanged(_ playbackSlider: UISlider, event: UIEvent){
         
         let seconds : Int64 = Int64(playbackSlider.value)
         let targetTime:CMTime = CMTimeMake(value: seconds, timescale: 1)
-        musicPlayer.isDurationChanging = true
+       // musicPlayer.isDurationChanging = true
         musicPlayer.seekPlayer(to: targetTime)
+        
+        if let touchEvent = event.allTouches?.first {
+            switch touchEvent.phase {
+            case .began:
+            // handle drag began
+                musicPlayer.isDurationChanging = true
+                break
+            case .moved:
+            // handle drag moved
+                
+                break
+            case .ended:
+            // handle drag ended
+                
+                musicPlayer.isDurationChanging = false
+                break
+            default:
+                break
+            }
+        }
+        
+        
+        
+        
+        
+        
+        
     }
     
-    @objc func sliderEditingEnded(_ playbackSlider: UISlider){
-       musicPlayer.isDurationChanging = false
+    @objc func sliderEditingEnded(_ playbackSlider: UISlider, event: UIEvent){
+       //musicPlayer.isDurationChanging = false
        
     }
 }

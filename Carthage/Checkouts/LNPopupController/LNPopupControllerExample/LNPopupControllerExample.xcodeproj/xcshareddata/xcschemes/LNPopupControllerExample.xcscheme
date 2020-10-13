@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1100"
+   LastUpgradeVersion = "1220"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -27,15 +27,6 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "39277A031B58228000293F95"
-            BuildableName = "LNPopupControllerExample.app"
-            BlueprintName = "LNPopupControllerExample"
-            ReferencedContainer = "container:LNPopupControllerExample.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <Testables>
          <TestableReference
             skipped = "NO">
@@ -69,6 +60,28 @@
             ReferencedContainer = "container:LNPopupControllerExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <CommandLineArguments>
+         <CommandLineArgument
+            argument = "-_UIConstraintBasedLayoutPlaySoundOnUnsatisfiable YES"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-LNUseDemoRandomColors YES"
+            isEnabled = "NO">
+         </CommandLineArgument>
+      </CommandLineArguments>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "LNPOPUP_DEBUG_SWIZZLES"
+            value = "1"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "CG_CONTEXT_SHOW_BACKTRACE"
+            value = "1"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
       <AdditionalOptions>
          <AdditionalOption
             key = "NSZombieEnabled"

@@ -7,8 +7,12 @@
 //
 
 import UIKit
+#if LNPOPUP
 import LNPopupController
+#endif
+import LoremIpsum
 
+@available(iOS 13.0, *)
 class DemoAlbumTableViewController: UITableViewController {
 
 	@IBOutlet var demoAlbumImageView: UIImageView!
@@ -30,36 +34,33 @@ class DemoAlbumTableViewController: UITableViewController {
 		
         super.viewDidLoad()
 		
-		if #available(iOS 13.0, *) {
-			demoAlbumImageView.layer.cornerCurve = .continuous
-		}
+#if LNPOPUP
+		tabBarController?.popupBar.barStyle = LNPopupBarStyle(rawValue: UserDefaults.standard.object(forKey: PopupSettingsBarStyle)  as? UInt ?? 0)!
+#endif
+		let appearance = UINavigationBarAppearance()
+		appearance.configureWithTransparentBackground()
+		navigationItem.standardAppearance = appearance
+
+		demoAlbumImageView.layer.cornerCurve = .continuous
 		demoAlbumImageView.layer.cornerRadius = 8
 		demoAlbumImageView.layer.masksToBounds = true
 		
 		for idx in 1...self.tableView(tableView, numberOfRowsInSection: 0) {
 			images += [UIImage(named: "genre\(idx)")!]
-			titles += [LoremIpsum.title()]
-			subtitles += [LoremIpsum.sentence()]
+			titles += [LoremIpsum.title]
+			subtitles += [LoremIpsum.sentence]
 		}
-		
-		tableView.backgroundColor = LNRandomDarkColor()
     }
 	
-	override func viewDidLayoutSubviews() {
-		super.viewDidLayoutSubviews()
-		#if !targetEnvironment(macCatalyst)
-		if ProcessInfo.processInfo.operatingSystemVersion.majorVersion <= 10 {
-			let insets = UIEdgeInsets.init(top: topLayoutGuide.length, left: 0, bottom: bottomLayoutGuide.length, right: 0)
-			tableView.contentInset = insets
-			tableView.scrollIndicatorInsets = insets
-		}
-		#endif
-	}
-	
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
+	override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+		let appearance = UINavigationBarAppearance()
 		
-		tableView.setContentOffset(CGPoint(x: 0, y: -tableView.contentInset.top), animated: false)
+		if scrollView.contentOffset.y > -scrollView.adjustedContentInset.top {
+			appearance.configureWithDefaultBackground()
+		} else {
+			appearance.configureWithTransparentBackground()
+		}
+		navigationItem.standardAppearance = appearance
 	}
 	
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -75,8 +76,8 @@ class DemoAlbumTableViewController: UITableViewController {
 	}
 	
 	override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-		let separator = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 1 / UIScreen.main.scale))
-		separator.backgroundColor = UIColor.white.withAlphaComponent(0.4)
+		let separator = UIView(frame: CGRect(x: view.layoutMargins.left, y: 0, width: tableView.bounds.size.width - view.layoutMargins.left, height: 1 / UIScreen.main.scale))
+		separator.backgroundColor = .separator
 		separator.autoresizingMask = .flexibleWidth
 		let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 2))
 		view.addSubview(separator)
@@ -88,19 +89,14 @@ class DemoAlbumTableViewController: UITableViewController {
 
 		cell.imageView?.image = images[(indexPath as NSIndexPath).row]
 		cell.textLabel?.text = titles[(indexPath as NSIndexPath).row]
-		cell.textLabel?.textColor = UIColor.white
 		cell.detailTextLabel?.text = subtitles[(indexPath as NSIndexPath).row]
-		cell.detailTextLabel?.textColor = UIColor.white
-		
-		let selectionView = UIView()
-		selectionView.backgroundColor = UIColor.white.withAlphaComponent(0.45)
-		cell.selectedBackgroundView = selectionView
 		
         return cell
     }
 
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		let popupContentController = storyboard?.instantiateViewController(withIdentifier: "DemoMusicPlayerController") as! DemoMusicPlayerController
+		#if LNPOPUP
+		let popupContentController = DemoMusicPlayerController()
 		popupContentController.songTitle = titles[(indexPath as NSIndexPath).row]
 		popupContentController.albumTitle = subtitles[(indexPath as NSIndexPath).row]
 		popupContentController.albumArt = images[(indexPath as NSIndexPath).row]
@@ -112,18 +108,13 @@ class DemoAlbumTableViewController: UITableViewController {
 		tabBarController?.popupBar.inheritsVisualStyleFromDockingView = true
 		#endif
 		
+//		tabBarController?.popupBar.customBarViewController = ManualLayoutCustomBarViewController()
 		tabBarController?.presentPopupBar(withContentViewController: popupContentController, animated: true, completion: nil)
+		tabBarController?.popupBar.imageView.layer.cornerRadius = 3
+		tabBarController?.popupBar.tintColor = UIColor.label
 		
-		if #available(iOS 13.0, *) {
-			tabBarController?.popupBar.tintColor = UIColor.label
-		} else {
-			tabBarController?.popupBar.tintColor = UIColor(white: 38.0 / 255.0, alpha: 1.0)
-		}
+		#endif
 		
 		tableView.deselectRow(at: indexPath, animated: true)
 	}
-	
-//	override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//		cell.backgroundColor = UIColor.clear
-//	}
 }

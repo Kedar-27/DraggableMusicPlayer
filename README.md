@@ -9,3 +9,10 @@ https://github.com/LeoNatan/LNPopupController
 
 https://github.com/jonasman/MulticastDelegate
 
+## Setup Commands
+
+```bash
+brew install carthage
+carthage update
+gem install cocoapods
+```

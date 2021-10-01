@@ -3,12 +3,10 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		97500EFE230AA940009E6DC8 /* LNPopupController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9758A4B623068A72002BB114 /* LNPopupController.framework */; };
-		9758A4B923068A89002BB114 /* LNPopupController.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9758A4B623068A72002BB114 /* LNPopupController.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9758A4C62306D5B9002BB114 /* CustomBottomBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9758A4C52306D5B9002BB114 /* CustomBottomBar.swift */; };
 		97939734230D21DD00D4A1E6 /* DynamicValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97939733230D21DD00D4A1E6 /* DynamicValue.swift */; };
 		97A0AF1C23041D79002E7D64 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A0AF1B23041D79002E7D64 /* AppDelegate.swift */; };
@@ -37,6 +35,8 @@
 		97E264D0230BE063001F1DB5 /* SingleShotOffscreenLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E264CF230BE063001F1DB5 /* SingleShotOffscreenLabel.swift */; };
 		97E264DA230C27AB001F1DB5 /* MusicData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E264D9230C27AB001F1DB5 /* MusicData.swift */; };
 		97E264DC230C3005001F1DB5 /* MusicDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E264DB230C3005001F1DB5 /* MusicDataViewModel.swift */; };
+		F9A66CCA27076ADF00A3B26E /* LNPopupController in Frameworks */ = {isa = PBXBuildFile; productRef = F9A66CC927076ADF00A3B26E /* LNPopupController */; };
+		F9A66CCB27076ADF00A3B26E /* LNPopupController in Embed Frameworks */ = {isa = PBXBuildFile; productRef = F9A66CC927076ADF00A3B26E /* LNPopupController */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -46,7 +46,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				9758A4B923068A89002BB114 /* LNPopupController.framework in Embed Frameworks */,
+				F9A66CCB27076ADF00A3B26E /* LNPopupController in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -92,7 +92,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				97500EFE230AA940009E6DC8 /* LNPopupController.framework in Frameworks */,
+				F9A66CCA27076ADF00A3B26E /* LNPopupController in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,6 +258,9 @@
 			dependencies = (
 			);
 			name = DragabbleViewController;
+			packageProductDependencies = (
+				F9A66CC927076ADF00A3B26E /* LNPopupController */,
+			);
 			productName = DragabbleViewController;
 			productReference = 97A0AF1823041D79002E7D64 /* DragabbleViewController.app */;
 			productType = "com.apple.product-type.application";
@@ -269,7 +272,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1030;
-				LastUpgradeCheck = 1030;
+				LastUpgradeCheck = 1250;
 				ORGANIZATIONNAME = "Kedar Sukerkar";
 				TargetAttributes = {
 					97A0AF1723041D79002E7D64 = {
@@ -295,6 +298,9 @@
 				Base,
 			);
 			mainGroup = 97A0AF0F23041D79002E7D64;
+			packageReferences = (
+				F9A66CC827076ADF00A3B26E /* XCRemoteSwiftPackageReference "LNPopupController" */,
+			);
 			productRefGroup = 97A0AF1923041D79002E7D64 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -335,7 +341,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n/usr/local/bin/carthage copy-frameworks\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n#/usr/local/bin/carthage copy-frameworks\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -419,6 +425,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -480,6 +487,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -522,7 +530,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = DragabbleViewController/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -549,7 +557,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = DragabbleViewController/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -584,6 +592,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F9A66CC827076ADF00A3B26E /* XCRemoteSwiftPackageReference "LNPopupController" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/LeoNatan/LNPopupController";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.12.6;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F9A66CC927076ADF00A3B26E /* LNPopupController */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F9A66CC827076ADF00A3B26E /* XCRemoteSwiftPackageReference "LNPopupController" */;
+			productName = LNPopupController;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 97A0AF1023041D79002E7D64 /* Project object */;
 }

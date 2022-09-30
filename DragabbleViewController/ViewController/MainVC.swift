@@ -116,7 +116,7 @@ extension MainVC: UIGestureRecognizerDelegate{
 
     @objc func handlePanGesture(gesture: UIPanGestureRecognizer?){
     
-        guard let _: CGPoint? = gesture?.translation(in: view) else { return }
+        guard let _: CGPoint = gesture?.translation(in: view) else { return }
             if gesture?.state == .changed || gesture?.state == .ended {
                 let percent = ((UIScreen.main.bounds.size.height - (self.navigationController?.popupContentView.frame.height)!) / UIScreen.main.bounds.size.height)
             

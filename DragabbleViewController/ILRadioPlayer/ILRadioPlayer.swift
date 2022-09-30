@@ -76,7 +76,7 @@ import AVFoundation
  The `ILRadioPlayerDelegate` protocol defines methods you can implement to respond to playback events associated with an `FRadioPlayer` object.
  */
 
-@objc public protocol ILRadioPlayerDelegate: class {
+@objc public protocol ILRadioPlayerDelegate: AnyObject {
     /**
      Called when player changes state
      

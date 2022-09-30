@@ -9,7 +9,7 @@
 import Foundation
 import AVFoundation
 
-@objc public protocol MusicPlayerDelegate: class{
+@objc public protocol MusicPlayerDelegate: AnyObject{
     @objc optional func playerStateDidChange(player: AVPlayer , _ playerState: MusicPlayerState)
     @objc optional func playbackStateDidChange(player: AVPlayer, _ playbackState: MusicPlayerPlaybackState)
     @objc optional func playerPlaybackDurationChanged(player: AVPlayer, currentTime: CMTime , totalTime: CMTime)
@@ -217,7 +217,7 @@ class MusicPlayer: NSObject{
         // Reachability config
         try? reachability?.startNotifier()
         NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged(note:)), name: .reachabilityChanged, object: reachability)
-        isConnected = reachability?.connection != .none
+        isConnected = reachability?.connection != Reachability.Connection.unavailable
         
         
         

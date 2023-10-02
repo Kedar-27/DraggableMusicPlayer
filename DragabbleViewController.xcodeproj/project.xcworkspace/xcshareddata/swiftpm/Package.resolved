@@ -1,16 +1,23 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "LNPopupController",
-        "repositoryURL": "https://github.com/LeoNatan/LNPopupController",
-        "state": {
-          "branch": null,
-          "revision": "5cd35773004b7a69a2005c08a84ef61d28b18e15",
-          "version": "2.12.6"
-        }
+  "pins" : [
+    {
+      "identity" : "lnpopupcontroller",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/LeoNatan/LNPopupController",
+      "state" : {
+        "revision" : "a5f5d66df82755f41585a86949edeeb76da1c383",
+        "version" : "2.15.12"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "marqueelabel",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/cbpowell/MarqueeLabel",
+      "state" : {
+        "revision" : "e68799fc4a58540a4f38f8eff539d7c46dd6aaaf",
+        "version" : "4.3.2"
+      }
+    }
+  ],
+  "version" : 2
 }

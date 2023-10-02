@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 import LNPopupController
-
+import MarqueeLabel
 
 class CustomBottomBar: LNPopupCustomBarViewController {
 
@@ -173,9 +173,4 @@ extension CustomBottomBar: MusicPlayerDelegate{
         }
         
     }
-    
-    
-    
-    
-    
 }

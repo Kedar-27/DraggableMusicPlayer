@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,13 +15,6 @@
 		97A0AF2323041D7A002E7D64 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97A0AF2223041D7A002E7D64 /* Assets.xcassets */; };
 		97A0AF2623041D7A002E7D64 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97A0AF2423041D7A002E7D64 /* LaunchScreen.storyboard */; };
 		97A46F9A2304200D00C931D2 /* DraggableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A46F992304200D00C931D2 /* DraggableVC.swift */; };
-		97C9FC3C230D585C00033545 /* FSPagerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C9FC33230D585B00033545 /* FSPagerViewCell.swift */; };
-		97C9FC3E230D585C00033545 /* FSPageViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C9FC36230D585B00033545 /* FSPageViewLayout.swift */; };
-		97C9FC3F230D585C00033545 /* FSPagerCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C9FC37230D585C00033545 /* FSPagerCollectionView.swift */; };
-		97C9FC40230D585C00033545 /* FSPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C9FC38230D585C00033545 /* FSPageControl.swift */; };
-		97C9FC41230D585C00033545 /* FSPagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C9FC39230D585C00033545 /* FSPagerView.swift */; };
-		97C9FC42230D585C00033545 /* FSPageViewTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C9FC3A230D585C00033545 /* FSPageViewTransformer.swift */; };
-		97C9FC43230D585C00033545 /* FSPagerViewLayoutAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C9FC3B230D585C00033545 /* FSPagerViewLayoutAttributes.swift */; };
 		97C9FC48230D649C00033545 /* MusicControlView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 97C9FC47230D649C00033545 /* MusicControlView.xib */; };
 		97C9FC4A230D650000033545 /* MusicControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C9FC49230D650000033545 /* MusicControlView.swift */; };
 		97D7509B230E6A10008A4C9F /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D75098230E6A10008A4C9F /* Reachability.swift */; };
@@ -30,11 +23,16 @@
 		97D750A1230E8255008A4C9F /* PlaylistHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D750A0230E8255008A4C9F /* PlaylistHelper.swift */; };
 		97D750A3230E98A1008A4C9F /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D750A2230E98A1008A4C9F /* MusicPlayer.swift */; };
 		97D9D3C32313FFC8007A48E1 /* MulticastDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D9D3C22313FFC8007A48E1 /* MulticastDelegate.swift */; };
-		97E264CC230BE051001F1DB5 /* MarqueeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E264CB230BE051001F1DB5 /* MarqueeLabel.swift */; };
-		97E264CE230BE05B001F1DB5 /* NoReturnAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E264CD230BE05B001F1DB5 /* NoReturnAnimation.swift */; };
-		97E264D0230BE063001F1DB5 /* SingleShotOffscreenLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E264CF230BE063001F1DB5 /* SingleShotOffscreenLabel.swift */; };
 		97E264DA230C27AB001F1DB5 /* MusicData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E264D9230C27AB001F1DB5 /* MusicData.swift */; };
 		97E264DC230C3005001F1DB5 /* MusicDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E264DB230C3005001F1DB5 /* MusicDataViewModel.swift */; };
+		A833CC5B2ACAA8C000B78953 /* MarqueeLabel in Frameworks */ = {isa = PBXBuildFile; productRef = A833CC5A2ACAA8C000B78953 /* MarqueeLabel */; };
+		A833CC892ACAAA3200B78953 /* FSPagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A833CC5E2ACAAA3200B78953 /* FSPagerView.swift */; };
+		A833CC8A2ACAAA3200B78953 /* FSPageViewTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A833CC5F2ACAAA3200B78953 /* FSPageViewTransformer.swift */; };
+		A833CCAB2ACAAA3200B78953 /* FSPagerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A833CC842ACAAA3200B78953 /* FSPagerViewCell.swift */; };
+		A833CCAC2ACAAA3200B78953 /* FSPagerViewLayoutAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A833CC852ACAAA3200B78953 /* FSPagerViewLayoutAttributes.swift */; };
+		A833CCAD2ACAAA3200B78953 /* FSPageViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A833CC862ACAAA3200B78953 /* FSPageViewLayout.swift */; };
+		A833CCAE2ACAAA3200B78953 /* FSPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A833CC872ACAAA3200B78953 /* FSPageControl.swift */; };
+		A833CCAF2ACAAA3200B78953 /* FSPagerCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A833CC882ACAAA3200B78953 /* FSPagerCollectionView.swift */; };
 		F9A66CCA27076ADF00A3B26E /* LNPopupController in Frameworks */ = {isa = PBXBuildFile; productRef = F9A66CC927076ADF00A3B26E /* LNPopupController */; };
 		F9A66CCB27076ADF00A3B26E /* LNPopupController in Embed Frameworks */ = {isa = PBXBuildFile; productRef = F9A66CC927076ADF00A3B26E /* LNPopupController */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -65,13 +63,6 @@
 		97A0AF2523041D7A002E7D64 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97A0AF2723041D7A002E7D64 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		97A46F992304200D00C931D2 /* DraggableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableVC.swift; sourceTree = "<group>"; };
-		97C9FC33230D585B00033545 /* FSPagerViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSPagerViewCell.swift; sourceTree = "<group>"; };
-		97C9FC36230D585B00033545 /* FSPageViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSPageViewLayout.swift; sourceTree = "<group>"; };
-		97C9FC37230D585C00033545 /* FSPagerCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSPagerCollectionView.swift; sourceTree = "<group>"; };
-		97C9FC38230D585C00033545 /* FSPageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSPageControl.swift; sourceTree = "<group>"; };
-		97C9FC39230D585C00033545 /* FSPagerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSPagerView.swift; sourceTree = "<group>"; };
-		97C9FC3A230D585C00033545 /* FSPageViewTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSPageViewTransformer.swift; sourceTree = "<group>"; };
-		97C9FC3B230D585C00033545 /* FSPagerViewLayoutAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSPagerViewLayoutAttributes.swift; sourceTree = "<group>"; };
 		97C9FC47230D649C00033545 /* MusicControlView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MusicControlView.xib; sourceTree = "<group>"; };
 		97C9FC49230D650000033545 /* MusicControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicControlView.swift; sourceTree = "<group>"; };
 		97D75098230E6A10008A4C9F /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
@@ -80,11 +71,15 @@
 		97D750A0230E8255008A4C9F /* PlaylistHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistHelper.swift; sourceTree = "<group>"; };
 		97D750A2230E98A1008A4C9F /* MusicPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
 		97D9D3C22313FFC8007A48E1 /* MulticastDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulticastDelegate.swift; sourceTree = "<group>"; };
-		97E264CB230BE051001F1DB5 /* MarqueeLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarqueeLabel.swift; sourceTree = "<group>"; };
-		97E264CD230BE05B001F1DB5 /* NoReturnAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoReturnAnimation.swift; sourceTree = "<group>"; };
-		97E264CF230BE063001F1DB5 /* SingleShotOffscreenLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleShotOffscreenLabel.swift; sourceTree = "<group>"; };
 		97E264D9230C27AB001F1DB5 /* MusicData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicData.swift; sourceTree = "<group>"; };
 		97E264DB230C3005001F1DB5 /* MusicDataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicDataViewModel.swift; sourceTree = "<group>"; };
+		A833CC5E2ACAAA3200B78953 /* FSPagerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSPagerView.swift; sourceTree = "<group>"; };
+		A833CC5F2ACAAA3200B78953 /* FSPageViewTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSPageViewTransformer.swift; sourceTree = "<group>"; };
+		A833CC842ACAAA3200B78953 /* FSPagerViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSPagerViewCell.swift; sourceTree = "<group>"; };
+		A833CC852ACAAA3200B78953 /* FSPagerViewLayoutAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSPagerViewLayoutAttributes.swift; sourceTree = "<group>"; };
+		A833CC862ACAAA3200B78953 /* FSPageViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSPageViewLayout.swift; sourceTree = "<group>"; };
+		A833CC872ACAAA3200B78953 /* FSPageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSPageControl.swift; sourceTree = "<group>"; };
+		A833CC882ACAAA3200B78953 /* FSPagerCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSPagerCollectionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A833CC5B2ACAA8C000B78953 /* MarqueeLabel in Frameworks */,
 				F9A66CCA27076ADF00A3B26E /* LNPopupController in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -164,9 +160,8 @@
 				97A0AF2423041D7A002E7D64 /* LaunchScreen.storyboard */,
 				97A0AF2723041D7A002E7D64 /* Info.plist */,
 				97D7509F230E80B8008A4C9F /* Music Player Library */,
+				A833CC5D2ACAAA3200B78953 /* FSPageControl */,
 				97D75097230E69E5008A4C9F /* ILRadioPlayer */,
-				97E264D1230BE072001F1DB5 /* MarqueeLabel */,
-				97C9FC31230D57E300033545 /* FSPageControl */,
 			);
 			path = DragabbleViewController;
 			sourceTree = "<group>";
@@ -178,20 +173,6 @@
 				97A46F992304200D00C931D2 /* DraggableVC.swift */,
 			);
 			path = ViewController;
-			sourceTree = "<group>";
-		};
-		97C9FC31230D57E300033545 /* FSPageControl */ = {
-			isa = PBXGroup;
-			children = (
-				97C9FC38230D585C00033545 /* FSPageControl.swift */,
-				97C9FC37230D585C00033545 /* FSPagerCollectionView.swift */,
-				97C9FC39230D585C00033545 /* FSPagerView.swift */,
-				97C9FC33230D585B00033545 /* FSPagerViewCell.swift */,
-				97C9FC3B230D585C00033545 /* FSPagerViewLayoutAttributes.swift */,
-				97C9FC36230D585B00033545 /* FSPageViewLayout.swift */,
-				97C9FC3A230D585C00033545 /* FSPageViewTransformer.swift */,
-			);
-			path = FSPageControl;
 			sourceTree = "<group>";
 		};
 		97C9FC46230D627600033545 /* View */ = {
@@ -222,22 +203,26 @@
 			path = "Music Player Library";
 			sourceTree = "<group>";
 		};
-		97E264D1230BE072001F1DB5 /* MarqueeLabel */ = {
-			isa = PBXGroup;
-			children = (
-				97E264CB230BE051001F1DB5 /* MarqueeLabel.swift */,
-				97E264CD230BE05B001F1DB5 /* NoReturnAnimation.swift */,
-				97E264CF230BE063001F1DB5 /* SingleShotOffscreenLabel.swift */,
-			);
-			path = MarqueeLabel;
-			sourceTree = "<group>";
-		};
 		97E28CCF230BCAF000EB0385 /* Data */ = {
 			isa = PBXGroup;
 			children = (
 				97E264D9230C27AB001F1DB5 /* MusicData.swift */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		A833CC5D2ACAAA3200B78953 /* FSPageControl */ = {
+			isa = PBXGroup;
+			children = (
+				A833CC5E2ACAAA3200B78953 /* FSPagerView.swift */,
+				A833CC5F2ACAAA3200B78953 /* FSPageViewTransformer.swift */,
+				A833CC842ACAAA3200B78953 /* FSPagerViewCell.swift */,
+				A833CC852ACAAA3200B78953 /* FSPagerViewLayoutAttributes.swift */,
+				A833CC862ACAAA3200B78953 /* FSPageViewLayout.swift */,
+				A833CC872ACAAA3200B78953 /* FSPageControl.swift */,
+				A833CC882ACAAA3200B78953 /* FSPagerCollectionView.swift */,
+			);
+			path = FSPageControl;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -250,7 +235,6 @@
 				97A0AF1423041D79002E7D64 /* Sources */,
 				97A0AF1523041D79002E7D64 /* Frameworks */,
 				97A0AF1623041D79002E7D64 /* Resources */,
-				9758A4B423068995002BB114 /* ShellScript */,
 				9758A4BA23068A89002BB114 /* Embed Frameworks */,
 			);
 			buildRules = (
@@ -260,6 +244,7 @@
 			name = DragabbleViewController;
 			packageProductDependencies = (
 				F9A66CC927076ADF00A3B26E /* LNPopupController */,
+				A833CC5A2ACAA8C000B78953 /* MarqueeLabel */,
 			);
 			productName = DragabbleViewController;
 			productReference = 97A0AF1823041D79002E7D64 /* DragabbleViewController.app */;
@@ -271,8 +256,9 @@
 		97A0AF1023041D79002E7D64 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1030;
-				LastUpgradeCheck = 1250;
+				LastUpgradeCheck = 1500;
 				ORGANIZATIONNAME = "Kedar Sukerkar";
 				TargetAttributes = {
 					97A0AF1723041D79002E7D64 = {
@@ -300,6 +286,7 @@
 			mainGroup = 97A0AF0F23041D79002E7D64;
 			packageReferences = (
 				F9A66CC827076ADF00A3B26E /* XCRemoteSwiftPackageReference "LNPopupController" */,
+				A833CC592ACAA8C000B78953 /* XCRemoteSwiftPackageReference "MarqueeLabel" */,
 			);
 			productRefGroup = 97A0AF1923041D79002E7D64 /* Products */;
 			projectDirPath = "";
@@ -324,27 +311,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		9758A4B423068995002BB114 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/LNPopupController.framework",
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n#/usr/local/bin/carthage copy-frameworks\n";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		97A0AF1423041D79002E7D64 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -352,28 +318,25 @@
 			files = (
 				97E264DC230C3005001F1DB5 /* MusicDataViewModel.swift in Sources */,
 				97D7509C230E6A10008A4C9F /* ILRadioAPI.swift in Sources */,
-				97C9FC3E230D585C00033545 /* FSPageViewLayout.swift in Sources */,
 				97D7509B230E6A10008A4C9F /* Reachability.swift in Sources */,
+				A833CCAD2ACAAA3200B78953 /* FSPageViewLayout.swift in Sources */,
 				97A0AF1E23041D79002E7D64 /* MainVC.swift in Sources */,
 				97D750A3230E98A1008A4C9F /* MusicPlayer.swift in Sources */,
-				97C9FC3F230D585C00033545 /* FSPagerCollectionView.swift in Sources */,
+				A833CCAF2ACAAA3200B78953 /* FSPagerCollectionView.swift in Sources */,
 				97D7509D230E6A10008A4C9F /* ILRadioPlayer.swift in Sources */,
+				A833CCAE2ACAAA3200B78953 /* FSPageControl.swift in Sources */,
 				97C9FC4A230D650000033545 /* MusicControlView.swift in Sources */,
 				9758A4C62306D5B9002BB114 /* CustomBottomBar.swift in Sources */,
-				97E264CC230BE051001F1DB5 /* MarqueeLabel.swift in Sources */,
 				97D9D3C32313FFC8007A48E1 /* MulticastDelegate.swift in Sources */,
 				97A0AF1C23041D79002E7D64 /* AppDelegate.swift in Sources */,
+				A833CCAC2ACAAA3200B78953 /* FSPagerViewLayoutAttributes.swift in Sources */,
+				A833CC8A2ACAAA3200B78953 /* FSPageViewTransformer.swift in Sources */,
 				97A46F9A2304200D00C931D2 /* DraggableVC.swift in Sources */,
+				A833CC892ACAAA3200B78953 /* FSPagerView.swift in Sources */,
+				A833CCAB2ACAAA3200B78953 /* FSPagerViewCell.swift in Sources */,
 				97E264DA230C27AB001F1DB5 /* MusicData.swift in Sources */,
 				97939734230D21DD00D4A1E6 /* DynamicValue.swift in Sources */,
-				97E264CE230BE05B001F1DB5 /* NoReturnAnimation.swift in Sources */,
-				97E264D0230BE063001F1DB5 /* SingleShotOffscreenLabel.swift in Sources */,
-				97C9FC3C230D585C00033545 /* FSPagerViewCell.swift in Sources */,
 				97D750A1230E8255008A4C9F /* PlaylistHelper.swift in Sources */,
-				97C9FC40230D585C00033545 /* FSPageControl.swift in Sources */,
-				97C9FC42230D585C00033545 /* FSPageViewTransformer.swift in Sources */,
-				97C9FC43230D585C00033545 /* FSPagerViewLayoutAttributes.swift in Sources */,
-				97C9FC41230D585C00033545 /* FSPagerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -403,6 +366,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -437,6 +401,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -465,6 +430,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -499,6 +465,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -521,22 +488,24 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = DragabbleViewController/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.demo.DragabbleViewController;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -548,22 +517,24 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = DragabbleViewController/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.demo.DragabbleViewController;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -594,6 +565,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		A833CC592ACAA8C000B78953 /* XCRemoteSwiftPackageReference "MarqueeLabel" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/cbpowell/MarqueeLabel";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.3.2;
+			};
+		};
 		F9A66CC827076ADF00A3B26E /* XCRemoteSwiftPackageReference "LNPopupController" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/LeoNatan/LNPopupController";
@@ -605,6 +584,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		A833CC5A2ACAA8C000B78953 /* MarqueeLabel */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A833CC592ACAA8C000B78953 /* XCRemoteSwiftPackageReference "MarqueeLabel" */;
+			productName = MarqueeLabel;
+		};
 		F9A66CC927076ADF00A3B26E /* LNPopupController */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F9A66CC827076ADF00A3B26E /* XCRemoteSwiftPackageReference "LNPopupController" */;

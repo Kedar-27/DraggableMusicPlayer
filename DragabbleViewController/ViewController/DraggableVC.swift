@@ -8,10 +8,11 @@
 
 import UIKit
 import LNPopupController
-import  AVFoundation
+import AVFoundation
+
 
 class DraggableVC: UIViewController {
-
+    
     // MARK: - Constants
     static let storyboardIdentifier = "DraggableVC"
     static let storyboardName       = "Main"
@@ -82,27 +83,18 @@ class DraggableVC: UIViewController {
         self.bannerView.addSubview(pagerView)
         
         [self.pagerView!.centerXAnchor.constraint(equalToSystemSpacingAfter: self.view.centerXAnchor, multiplier: 1), self.bannerView.centerYAnchor.constraint(equalToSystemSpacingBelow: self.bannerView.centerYAnchor, multiplier: 1), self.pagerView!.widthAnchor.constraint(equalTo: bannerView!.widthAnchor, multiplier: 1) , self.pagerView!.heightAnchor.constraint(equalTo: bannerView!.heightAnchor, multiplier: 1)].forEach({$0.isActive = true})
-     
+        
         
         self.pagerView.delegate = self
         self.pagerView.dataSource = self
         self.pagerView.interitemSpacing = 20
-
+        
         self.pagerView.removeGestureRecognizer(self.pagerView.panGestureRecognizer)
         
         
         self.viewModel.musicData.addAndNotify(observer: self) { (musics) in
             self.musicData = musics
         }
-        
-    
-       
-        
-        
-        
-        
-        
-        
     }
     
     func setupUI(){
@@ -118,7 +110,7 @@ class DraggableVC: UIViewController {
     }
     
     func showMusicControlView(){
-      
+        
         guard let musicView =  Bundle.main.loadNibNamed(MusicControlView.identifier, owner: self, options: nil)?.first as? MusicControlView else{ return}
         
         DispatchQueue.main.async { [unowned self] in
@@ -132,8 +124,8 @@ class DraggableVC: UIViewController {
         }
         
         self.viewModel.currentMusicItem.addAndNotify(observer: self, completionHandler: {(music) in
-                musicView.songTitleLabel.text = music.title
-                musicView.artistNameLabel.text = music.subtitle
+            musicView.songTitleLabel.text = music.title
+            musicView.artistNameLabel.text = music.subtitle
         })
         
         musicView.durationSlider.addTarget(self, action: #selector(sliderValueChanged(_:event:)) , for: .valueChanged)
@@ -165,79 +157,69 @@ class DraggableVC: UIViewController {
     
     
     // MARK: - IBActions
-
+    
     @objc func prevButtonClicked(_ sender: Any) {
-//        let newIndex = self.pagerView.currentIndex - 1
-//
-//        guard  newIndex >= 0 else {
-//            return
-//        }
-//        self.pagerView.scrollToItem(at: newIndex , animated: true)
-//
-//        self.viewModel.currentMusicItem.value = self.musicData[newIndex]
+        //        let newIndex = self.pagerView.currentIndex - 1
+        //
+        //        guard  newIndex >= 0 else {
+        //            return
+        //        }
+        //        self.pagerView.scrollToItem(at: newIndex , animated: true)
+        //
+        //        self.viewModel.currentMusicItem.value = self.musicData[newIndex]
         
-         musicPlayer.playPrevious()
+        musicPlayer.playPrevious()
         
     }
     
     @objc func nextButtonClicked(_ sender: Any) {
         
-//        let currentIndex = self.pagerView.currentIndex + 1
-//
-//
-//        guard  currentIndex < self.musicData.count else {
-//            return
-//        }
-//        self.pagerView.scrollToItem(at: currentIndex , animated: true)
-//        self.viewModel.currentMusicItem.value = self.musicData[currentIndex]
-    
+        //        let currentIndex = self.pagerView.currentIndex + 1
+        //
+        //
+        //        guard  currentIndex < self.musicData.count else {
+        //            return
+        //        }
+        //        self.pagerView.scrollToItem(at: currentIndex , animated: true)
+        //        self.viewModel.currentMusicItem.value = self.musicData[currentIndex]
+        
         musicPlayer.playNext()
-    
+        
     }
     
     
     @objc func playButtonCLicked(){
-        
-        
-       
-        
-      //  let videoURL = NSURL(string: "http://strm112.1.fm/acountry_mobile_mp3")
+        //  let videoURL = NSURL(string: "http://strm112.1.fm/acountry_mobile_mp3")
         //avPlayer = AVPlayer(url: videoURL! as URL)
         //avPlayer.play()
-        
-        
-        
-        
-        
-       musicPlayer.play()
-        
-        
+                
+        musicPlayer.play()
     }
     
     @objc func sliderValueChanged(_ playbackSlider: UISlider, event: UIEvent){
         
         let seconds : Int64 = Int64(playbackSlider.value)
         let targetTime:CMTime = CMTimeMake(value: seconds, timescale: 1)
-       // musicPlayer.isDurationChanging = true
+        // musicPlayer.isDurationChanging = true
         musicPlayer.seekPlayer(to: targetTime)
         
         if let touchEvent = event.allTouches?.first {
             switch touchEvent.phase {
-            case .began:
-            // handle drag began
-                musicPlayer.isDurationChanging = true
-                break
-            case .moved:
-            // handle drag moved
-                
-                break
-            case .ended:
-            // handle drag ended
-                
-                musicPlayer.isDurationChanging = false
-                break
-            default:
-                break
+                case .began:
+                    // handle drag began
+                    musicPlayer.isDurationChanging = true
+                    break
+                case .moved:
+                    // handle drag moved
+                    
+                    break
+                case .ended:
+                    // handle drag ended
+                    
+                    musicPlayer.isDurationChanging = false
+                    break
+                default:
+                    break
             }
         }
         
@@ -250,8 +232,8 @@ class DraggableVC: UIViewController {
     }
     
     @objc func sliderEditingEnded(_ playbackSlider: UISlider, event: UIEvent){
-       //musicPlayer.isDurationChanging = false
-       
+        //musicPlayer.isDurationChanging = false
+        
     }
 }
 
@@ -259,7 +241,7 @@ class DraggableVC: UIViewController {
 
 extension DraggableVC: FSPagerViewDataSource, FSPagerViewDelegate{
     
-
+    
     
     public func numberOfItems(in pagerView: FSPagerView) -> Int {
         return musicData.count
@@ -287,36 +269,15 @@ extension DraggableVC: FSPagerViewDataSource, FSPagerViewDelegate{
         let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY)
         
         guard let indexPath = pagerView.collectionView.indexPathForItem(at: visiblePoint) else { return }
-    
+        
         self.musicPlayer.playItem(index: indexPath.row)
-        
         self.viewModel.currentMusicItem.value = self.musicData[indexPath.row]
-        
-        
     }
-    
-    
-    
-    
-    
 }
-
-
-
-
-
-
-
-
-
 
 extension DraggableVC: MusicPlayerDelegate{
     func playerStateDidChange(player: AVPlayer, _ playerState: MusicPlayerState) {
-        
         print("Player State--- \(playerState.description)")
-       
-        
-        
     }
     
     func playbackStateDidChange(player: AVPlayer, _ playbackState: MusicPlayerPlaybackState) {
@@ -324,29 +285,25 @@ extension DraggableVC: MusicPlayerDelegate{
     }
     
     func playerPlaybackDurationChanged(player: AVPlayer, currentTime: CMTime, totalTime: CMTime) {
-
-    
+        // DispatchQueue.main.async { [weak self] in
+        
+        //   guard let strongSelf = self else{return}
+        
+        self.musicControlView.currentTimeLabel.text  = PlaylistHelper.shared.getTimeString(from: currentTime)
         
         
-       // DispatchQueue.main.async { [weak self] in
-            
-         //   guard let strongSelf = self else{return}
         
-            self.musicControlView.currentTimeLabel.text  = PlaylistHelper.shared.getTimeString(from: currentTime)
+        self.musicControlView.durationSlider.value = Float(currentTime.seconds)
         
         
-    
-            self.musicControlView.durationSlider.value = Float(currentTime.seconds)
-    
-        
-            if !totalTime.seconds.isNaN{
-                self.musicControlView.durationSlider.maximumValue = Float(totalTime.seconds)
-            }
+        if !totalTime.seconds.isNaN{
+            self.musicControlView.durationSlider.maximumValue = Float(totalTime.seconds)
+        }
         
         
         
         
-            self.musicControlView.durationLabel.text = PlaylistHelper.shared.getTimeString(from: totalTime)
+        self.musicControlView.durationLabel.text = PlaylistHelper.shared.getTimeString(from: totalTime)
         
         //}
     }
